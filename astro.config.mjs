@@ -1,5 +1,10 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+import tailwind from "@astrojs/tailwind";
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  site: 'https://anishmariathasan.github.io', // your user‑page URL
+  base: '/',                                   // root repo for user‑page—no repo name prefix
+  integrations: [
+    tailwind(),
+  ],
+});

@@ -1,16 +1,19 @@
 ---
-
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+// Import other sections/components as needed
 ---
+<BaseLayout title="Anish Mariathasan - Biomedical Engineering">
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+    <HeroSection />
+
+    <AboutSection id="about" />
+
+    <ProjectsSection id="projects" />
+
+    <!-- Add more sections like Contact, etc. -->
+
+</BaseLayout>

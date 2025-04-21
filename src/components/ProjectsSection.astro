@@ -1,0 +1,164 @@
+---
+// src/components/ProjectsSection.astro
+const projects = [
+  {
+    title: "Improving Stem Cell Viability in Syringe Injection",
+    role: "Research Lead",
+    date: "Oct 2024 - Present",
+    description: "Leading research project involving fluid dynamics modelling, microfluidic chamber design/fabrication, and ML for cell imaging.",
+    tags: ["Research", "Fluid Dynamics", "MATLAB", "ML", "Microfluidics", "Hardware"],
+    link: "#", // Replace with link to project detail page or demo later
+  },
+  {
+    title: "Therakey",
+    role: "Project Co-Lead",
+    date: "Oct 2023 - June 2024",
+    description: "Co-led development of an arthritis rehabilitation device, designing hardware circuits and writing firmware.",
+    tags: ["Embedded C", "Raspberry Pico", "Hardware Design", "Rehabilitation Tech"],
+    link: "#",
+  },
+  {
+    title: "Software Engineering Internship Project ('Moonwall')",
+    role: "Intern Developer",
+    date: "Summer 2024 (During Internship)",
+    description: "Built an automated Python tool for data aggregation, visualisation & analysis to significantly enhance team efficiency at Oxford Nanopore.",
+    tags: ["Python", "Data Visualisation", "Automation", "Stakeholder Feedback"],
+    link: "#", // Link to ONT experience or a separate project description
+  },
+  {
+    title: "Firmware Engineer Internship Work",
+    role: "Intern Developer",
+    date: "Summer 2023 (During Internship)",
+    description: "Assisted in developing a medical device hardware system and C firmware for Thermetrix Ltd. using Raspberry Pico.",
+    tags: ["Embedded C", "Raspberry Pico", "Hardware", "Medical Device"],
+    link: "#",
+  },
+  {
+    title: "PPE Redistribution App",
+    role: "Developer",
+    date: "2020",
+    description: "Developed a Java mobile app using Firebase Realtime Database to facilitate PPE redistribution during the COVID-19 pandemic.",
+    tags: ["Java", "Android", "Firebase", "Mobile App", "Social Impact"],
+    link: "#",
+  },
+  {
+    title: "Personal Website (Previous Version)",
+    role: "Developer",
+    date: "2018 - 2020",
+    description: "Built a personal website using Python/Django for the back-end and HTML/CSS for the front-end.",
+    tags: ["Python", "Django", "HTML", "CSS", "Web Development"],
+    link: "#",
+  },
+  {
+    title: "Mobile Game Development ('Squashed Orange')",
+    role: "Developer",
+    date: "2017 - 2019",
+    description: "Developed and sold mobile games on Google Play/Microsoft Store using the Unity engine.",
+    tags: ["C#", "Unity", "Game Development", "Mobile"],
+    link: "#",
+  },
+    {
+    title: "Extended Project Qualification (EPQ)",
+    role: "Author",
+    date: "2021",
+    description: "Authored an A*-graded academic research dissertation titled 'Autonomous Surgical Robotics: An Overview of the Challenges and Future Areas of Development.'",
+    tags: ["Research", "Academic Writing", "Robotics", "Healthcare"],
+    link: "#", // Could link to a PDF or summary if available
+  },
+];
+---
+<section id="projects" class="py-16 md:py-24 bg-gray-800/30"> {/* Slight background distinction */}
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 animate-on-scroll">
+      Projects & Experience Highlights
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project, index) => (
+        <div class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100}`}> {/* Added flex-col */}
+          <h3 class="text-xl font-bold mb-2 text-teal-400">{project.title}</h3>
+          <p class="text-sm text-gray-400 mb-1">{project.role} {project.date ? `| ${project.date}` : ''}</p>
+          <p class="text-gray-300 mb-4 flex-grow">{project.description}</p> {/* Added flex-grow */}
+          <div class="mt-auto pt-4 border-t border-gray-700/50"> {/* Ensures tags are at the bottom */}
+             <div class="flex flex-wrap gap-2">
+              {project.tags.map(tag => (
+                <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            {/* Optional: Add link conditionally */}
+            {/* {project.link !== '#' && (
+              <a href={project.link} class="inline-block text-teal-400 hover:text-teal-300 mt-4">Learn More →</a>
+            )} */}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Base state for animation elements */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  /* State when element becomes visible */
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Simple delay utility classes - Add more if needed */
+  .delay-0 { transition-delay: 0s; }
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+  .delay-400 { transition-delay: 0.4s; }
+  .delay-500 { transition-delay: 0.5s; }
+  .delay-600 { transition-delay: 0.6s; }
+  .delay-700 { transition-delay: 0.7s; }
+   /* Ensure cards have a min height if needed, or use flex-grow on description */
+   .project-card {
+    min-height: 250px; /* Adjust as needed or rely on flex-grow */
+   }
+</style>
+
+<script>
+  // Re-using the same animation logic as the About section
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.utils.toArray(".animate-on-scroll").forEach((element) => {
+      gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6, // Slightly faster for cards?
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 90%", // Trigger slightly later for cards
+          // markers: true,
+          toggleActions: "play none none none",
+        }
+      });
+    });
+  });
+
+  // CSS Fallback Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        // observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>

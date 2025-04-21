@@ -1,0 +1,81 @@
+---
+// src/components/AboutSection.astro
+// No props needed for this static section currently
+---
+<section id="about" class="py-16 md:py-24">
+  <div class="container mx-auto px-4 max-w-3xl text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-on-scroll">
+      About Me
+    </h2>
+    <div class="text-lg md:text-xl text-gray-300 leading-relaxed space-y-4 animate-on-scroll delay-100">
+      <p>
+        I'm a Biomedical Engineering MEng student at <strong class="text-teal-400 font-semibold">Imperial College London</strong>, passionate about applying technology to solve real-world medical challenges. My studies, supplemented by an Academic Scholarship and strong performance in modules like Advanced Programming (96%), form the foundation of my technical skills.
+      </p>
+      <p>
+        My experience spans <strong class="text-teal-400 font-semibold">software engineering</strong> (C++, Python, Java, C#), <strong class="text-teal-400 font-semibold">machine learning</strong> (PyTorch exposure at Oxford Nanopore), <strong class="text-teal-400 font-semibold">firmware development</strong> (C on Raspberry Pico at Thermetrix), and <strong class="text-teal-400 font-semibold">web development</strong> (Python/Django). I enjoy the full development cycle, from conceptualization and hardware design to software implementation and data analysis (MATLAB).
+      </p>
+      <p>
+        Beyond academics and internships, I co-founded a socio-altruistic startup concept through the <strong class="text-teal-400 font-semibold">Kickstart '23 Emerge Programme</strong> and take leadership roles in societies like MedTech and Sri Lankan Society at Imperial. I'm always eager to learn and contribute to innovative projects in the MedTech space.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Base state for animation elements */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  /* State when element becomes visible */
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Simple delay utility classes */
+  .delay-100 { transition-delay: 0.1s; }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Use GSAP to animate elements when they scroll into view
+  document.addEventListener('DOMContentLoaded', () => {
+    gsap.utils.toArray(".animate-on-scroll").forEach((element) => {
+      gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 85%", // Trigger when 85% of the element is visible
+          // markers: true, // Uncomment to debug trigger points
+          toggleActions: "play none none none", // Play animation once on enter
+        }
+      });
+    });
+  });
+
+  // Fallback for non-JS users or if GSAP fails (using CSS transitions)
+  // This could also be done purely with CSS Intersection Observer if preferred over GSAP
+  // but GSAP offers more control. Here's a simple CSS fallback observer:
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        // Optional: stop observing once visible if animation only plays once
+        // observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 }); // Trigger when 10% visible
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+
+</script>
