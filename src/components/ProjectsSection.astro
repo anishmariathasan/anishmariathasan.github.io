@@ -1,153 +1,235 @@
 ---
+// src/components/ProjectsSection.astro
 const projects = [
+  {
+    title: "Improving Stem Cell Viability in Syringe Injection",
+    role: "Research Lead",
+    date: "Oct 2024 - Present",
+    description: "Leading research project involving fluid dynamics modelling, microfluidic chamber design/fabrication, and ML for cell imaging.",
+    tags: ["Research", "Fluid Dynamics", "MATLAB", "ML", "Microfluidics", "Hardware"],
+    link: "#",
+  },
   {
     title: "Therakey",
     role: "Project Co-Lead",
     date: "Oct 2023 - June 2024",
     description: "Co-led development of an arthritis rehabilitation device, designing hardware circuits and writing firmware.",
     tags: ["Embedded C", "Raspberry Pico", "Hardware Design", "Rehabilitation Tech"],
-    details: `
-      <h4 class='text-lg font-semibold mb-2'>Project Details</h4>
-      <p class='mb-2'>This project involved designing and building a proof-of-concept device aimed at aiding arthritis rehabilitation.</p>
-      <p class='mb-2'>My responsibilities included:</p>
-      <ul class='list-disc list-inside mb-2'>
-        <li>Co-leading the project team.</li>
-        <li>Designing the hardware circuits for the device.</li>
-        <li>Developing the firmware in C for the Raspberry Pico microcontroller.</li>
-        <li>Integrating various hardware components.</li>
-      </ul>
-      <p>Technologies Used: C, Raspberry Pico, Embedded Systems, KiCad (example).</p>
-    `,
     link: "#",
   },
   {
-    title: "Project X",
-    role: "Developer",
-    date: "Jan 2022 - Dec 2022",
-    description: "Developed a software platform for managing healthcare data.",
-    tags: ["JavaScript", "React", "Node.js", "MongoDB"],
-    details: `
-      <h4 class='text-lg font-semibold mb-2'>Project Details</h4>
-      <p class='mb-2'>Developed a full-stack healthcare platform focused on secure patient data management.</p>
-      <p class='mb-2'>My responsibilities included:</p>
-      <ul class='list-disc list-inside mb-2'>
-        <li>Frontend development with React.</li>
-        <li>Backend API with Node.js and Express.</li>
-        <li>Database design and integration using MongoDB.</li>
-      </ul>
-      <p>Technologies Used: JavaScript, React, Node.js, MongoDB.</p>
-    `,
+    title: "Software Engineering Internship Project ('Moonwall')",
+    role: "Intern Developer",
+    date: "Summer 2024 (During Internship)",
+    description: "Built an automated Python tool for data aggregation, visualisation & analysis to significantly enhance team efficiency at Oxford Nanopore.",
+    tags: ["Python", "Data Visualisation", "Automation", "Stakeholder Feedback"],
     link: "#",
   },
-  // Add more projects here as needed
+  {
+    title: "Firmware Engineer Internship Work",
+    role: "Intern Developer",
+    date: "Summer 2023 (During Internship)",
+    description: "Assisted in developing a medical device hardware system and C firmware for Thermetrix Ltd. using Raspberry Pico.",
+    tags: ["Embedded C", "Raspberry Pico", "Hardware", "Medical Device"],
+    link: "#",
+  },
+  {
+    title: "PPE Redistribution App",
+    role: "Developer",
+    date: "2020",
+    description: "Developed a Java mobile app using Firebase Realtime Database to facilitate PPE redistribution during the COVID-19 pandemic.",
+    tags: ["Java", "Android", "Firebase", "Mobile App", "Social Impact"],
+    link: "#",
+  },
+  {
+    title: "Personal Website (Previous Version)",
+    role: "Developer",
+    date: "2018 - 2020",
+    description: "Built a personal website using Python/Django for the back-end and HTML/CSS for the front-end.",
+    tags: ["Python", "Django", "HTML", "CSS", "Web Development"],
+    link: "#",
+  },
+  {
+    title: "Mobile Game Development ('Squashed Orange')",
+    role: "Developer",
+    date: "2017 - 2019",
+    description: "Developed and sold mobile games on Google Play/Microsoft Store using the Unity engine.",
+    tags: ["C#", "Unity", "Game Development", "Mobile"],
+    link: "#",
+  },
 ];
 ---
-
 <section id="projects" class="py-16 md:py-24 bg-gray-800/30">
   <div class="container mx-auto px-4">
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 animate-on-scroll">
       Projects & Experience Highlights
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- OedaSock card, inserted at top -->
+      <div class="project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-0">
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-xl font-bold mb-1 text-teal-400">
+              OedaSock (Imperial HCARD Competition Winner)
+            </h3>
+            <p class="text-sm text-gray-400">
+              Jan 2025 - Present
+            </p>
+            <p class="text-sm text-gray-400 mt-1">
+              Associated with Imperial College London
+            </p>
+          </div>
+          <a
+            href="https://github.com/anishmariathasan/hcard"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="ml-4"
+            aria-label="View on GitHub"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-teal-400 hover:text-teal-300 transition-colors duration-150"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <title>GitHub</title>
+              <path
+                d="M12 .5C5.649.5.5 5.649.5 12c0 5.094 3.292 9.41 7.865 10.942.575.106.785-.25.785-.557 0-.274-.01-1.189-.015-2.156-3.2.696-3.875-1.542-3.875-1.542-.523-1.333-1.276-1.688-1.276-1.688-1.043-.713.08-.699.08-.699 1.152.082 1.758 1.184 1.758 1.184 1.026 1.757 2.693 1.25 3.348.957.104-.744.402-1.25.731-1.537-2.555-.29-5.242-1.277-5.242-5.687 0-1.257.45-2.284 1.184-3.089-.119-.29-.513-1.462.113-3.048 0 0 .967-.31 3.168 1.18.918-.255 1.902-.382 2.88-.387.979.005 1.962.132 2.882.387 2.2-1.49 3.166-1.18 3.166-1.18.628 1.586.233 2.758.115 3.048.737.805 1.184 1.832 1.184 3.089 0 4.42-2.692 5.392-5.254 5.678.413.356.782 1.062.782 2.14 0 1.545-.014 2.79-.014 3.168 0 .31.207.67.792.557C20.71 21.408 24 17.094 24 12c0-6.351-5.149-11.5-12-11.5z"
+              />
+            </svg>
+          </a>
+        </div>
+        <p class="text-gray-300 mt-4 mb-4 flex-grow">
+          OedaSock is an innovative smart compression device designed to actively manage leg swelling (oedema). It placed first in the HCARD Imperial Module competition.
+
+          It uses integrated stretch sensors to detect changes in foot size and automatically applies targeted pneumatic compression via an embedded sock/cuff, offering a more comfortable and responsive alternative to traditional garments. All of this can be manually adjusted through the accompanying app, which has user login functionality to track their oedema progress and other biometric data for better clinical treatment.
+        </p>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>
+            Developed the companion Android app (Kotlin) providing users with BLE connectivity, real-time pressure monitoring, and data logging capabilities (using Google Firestore).
+          </li>
+          <li>
+            Worked on ESP32 microcontroller firmware (Arduino/C++) for processing sensor input and precisely managing the automated compression/deflation cycles.
+          </li>
+        </ul>
+      </div>
+
+      {/* Remaining projects */}
       {projects.map((project, index) => (
-        <div class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100} cursor-pointer`}
-             data-modal-trigger={`project-modal-${index}`}
+        <div
+          class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100}`}
         >
-          <h3 class="text-xl font-bold mb-2 text-teal-400">{project.title}</h3>
-          <p class="text-sm text-gray-400 mb-1">{project.role} {project.date ? `| ${project.date}` : ''}</p>
-          <p class="text-gray-300 mb-4 flex-grow">{project.description}</p>
+          <h3 class="text-xl font-bold mb-2 text-teal-400">
+            {project.title}
+          </h3>
+          <p class="text-sm text-gray-400 mb-1">
+            {project.role}
+            {project.date ? ` | ${project.date}` : ""}
+          </p>
+          <p class="description text-gray-300 mb-4 flex-grow">
+            {project.description}
+          </p>
           <div class="mt-auto pt-4 border-t border-gray-700/50">
-            <div class="flex flex-wrap gap-2 mb-4">
-              {project.tags.map(tag => (
-                <span key={tag} class="text-sm font-semibold bg-teal-500 text-white py-1 px-3 rounded-full">{tag}</span>
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded">
+                  {tag}
+                </span>
               ))}
             </div>
-            <span class="text-teal-400 hover:text-teal-300 text-sm font-semibold">
-              Learn More →
-            </span>
           </div>
-
-          <!-- Hidden detailed content -->
-          <div class="project-details hidden" set:html={project.details}></div>
         </div>
       ))}
     </div>
   </div>
 </section>
 
-<!-- Modal Structure -->
-<div id="project-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-75 hidden z-40"></div>
-<div id="project-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-6 md:p-8 rounded-lg shadow-xl z-50 w-11/12 md:w-3/4 lg:w-1/2 max-h-[80vh] overflow-y-auto hidden">
-    <button id="project-modal-close" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl">×</button>
-    <div id="project-modal-content">
-        <!-- Content will be injected here by JavaScript -->
-    </div>
-</div>
+<style>
+  /* ---------------------------------------- */
+  /* SCROLL-IN ANIMATION                      */
+  /* ---------------------------------------- */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .delay-0 { transition-delay: 0s; }
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+  .delay-400 { transition-delay: 0.4s; }
+  .delay-500 { transition-delay: 0.5s; }
+  .delay-600 { transition-delay: 0.6s; }
+  .delay-700 { transition-delay: 0.7s; }
 
-<script>
-  // --- GSAP Animation Script ---
+  /* ---------------------------------------- */
+  /* CARD EXPAND/COLLAPSE BEHAVIOUR           */
+  /* ---------------------------------------- */
+  .project-card {
+    cursor: pointer;
+  }
+  .project-card .description {
+    max-height: 4.5em;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .project-card.expanded .description {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .project-card.expanded .description::-webkit-scrollbar {
+    width: 6px;
+  }
+  .project-card.expanded .description::-webkit-scrollbar-thumb {
+    background: rgba(100,100,100,0.5);
+    border-radius: 3px;
+  }
+</style>
+
+<script type="module">
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Apply GSAP fade-in effect on project cards
-    gsap.from(".project-card", {
-      opacity: 0,
-      duration: 1.5,
-      stagger: 0.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".project-card",
-        start: "top 80%", // Trigger when the card is 80% from top of the viewport
-        toggleActions: "play none none none",
-      }
-    });
-  });
-
-  // --- Modal Logic Script ---
-  document.addEventListener('DOMContentLoaded', () => {
-    const modalBackdrop = document.getElementById('project-modal-backdrop');
-    const modal = document.getElementById('project-modal');
-    const modalContent = document.getElementById('project-modal-content');
-    const closeModalButton = document.getElementById('project-modal-close');
-    const projectCards = document.querySelectorAll('.project-card[data-modal-trigger]');
-
-    function openModal(contentHtml: string) {
-      if (modalContent) {
-        modalContent.innerHTML = contentHtml;
-        if (modalBackdrop) modalBackdrop.classList.remove('hidden');
-        if (modal) modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-      }
-    }
-
-    function closeModal() {
-      if (modalBackdrop && modal) {
-        modalBackdrop.classList.add('hidden');
-        modal.classList.add('hidden');
-        if (modalContent) modalContent.innerHTML = ''; // Clear content
-        document.body.style.overflow = ''; // Restore background scrolling
-      }
-    }
-
-    projectCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const detailsDiv = card.querySelector('.project-details');
-        if (detailsDiv) {
-          openModal(detailsDiv.innerHTML); // Inject details into the modal
-        }
+  document.addEventListener("DOMContentLoaded", () => {
+    // GSAP fade-in on scroll
+    gsap.utils.toArray(".animate-on-scroll").forEach((el) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
       });
     });
 
-    if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
-    if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+    // Fallback IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
 
-    // Close modal on Escape key press
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-        closeModal();
-      }
+    // Expand/collapse on click
+    document.querySelectorAll(".project-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("expanded");
+      });
     });
   });
 </script>
