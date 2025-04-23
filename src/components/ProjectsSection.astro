@@ -2,163 +2,136 @@
 // src/components/ProjectsSection.astro
 const projects = [
   {
-    title: "Improving Stem Cell Viability in Syringe Injection",
-    role: "Research Lead",
-    date: "Oct 2024 - Present",
-    description: "Leading research project involving fluid dynamics modelling, microfluidic chamber design/fabrication, and ML for cell imaging.",
-    tags: ["Research", "Fluid Dynamics", "MATLAB", "ML", "Microfluidics", "Hardware"],
-    link: "#", // Replace with link to project detail page or demo later
-  },
-  {
     title: "Therakey",
     role: "Project Co-Lead",
     date: "Oct 2023 - June 2024",
     description: "Co-led development of an arthritis rehabilitation device, designing hardware circuits and writing firmware.",
     tags: ["Embedded C", "Raspberry Pico", "Hardware Design", "Rehabilitation Tech"],
-    link: "#",
+    details: `
+      <h4 class='text-lg font-semibold mb-2'>Project Details</h4>
+      <p class='mb-2'>This project involved designing and building a proof-of-concept device aimed at aiding arthritis rehabilitation.</p>
+      <p class='mb-2'>My responsibilities included:</p>
+      <ul class='list-disc list-inside mb-2'>
+        <li>Co-leading the project team.</li>
+        <li>Designing the hardware circuits for the device.</li>
+        <li>Developing the firmware in C for the Raspberry Pico microcontroller.</li>
+        <li>Integrating various hardware components.</li>
+      </ul>
+      <p>Technologies Used: C, Raspberry Pico, Embedded Systems, KiCad (example).</p>
+    `,
+    link: "#", 
   },
-  {
-    title: "Software Engineering Internship Project ('Moonwall')",
-    role: "Intern Developer",
-    date: "Summer 2024 (During Internship)",
-    description: "Built an automated Python tool for data aggregation, visualisation & analysis to significantly enhance team efficiency at Oxford Nanopore.",
-    tags: ["Python", "Data Visualisation", "Automation", "Stakeholder Feedback"],
-    link: "#", // Link to ONT experience or a separate project description
-  },
-  {
-    title: "Firmware Engineer Internship Work",
-    role: "Intern Developer",
-    date: "Summer 2023 (During Internship)",
-    description: "Assisted in developing a medical device hardware system and C firmware for Thermetrix Ltd. using Raspberry Pico.",
-    tags: ["Embedded C", "Raspberry Pico", "Hardware", "Medical Device"],
-    link: "#",
-  },
-  {
-    title: "PPE Redistribution App",
-    role: "Developer",
-    date: "2020",
-    description: "Developed a Java mobile app using Firebase Realtime Database to facilitate PPE redistribution during the COVID-19 pandemic.",
-    tags: ["Java", "Android", "Firebase", "Mobile App", "Social Impact"],
-    link: "#",
-  },
-  {
-    title: "Personal Website (Previous Version)",
-    role: "Developer",
-    date: "2018 - 2020",
-    description: "Built a personal website using Python/Django for the back-end and HTML/CSS for the front-end.",
-    tags: ["Python", "Django", "HTML", "CSS", "Web Development"],
-    link: "#",
-  },
-  {
-    title: "Mobile Game Development ('Squashed Orange')",
-    role: "Developer",
-    date: "2017 - 2019",
-    description: "Developed and sold mobile games on Google Play/Microsoft Store using the Unity engine.",
-    tags: ["C#", "Unity", "Game Development", "Mobile"],
-    link: "#",
-  },
-    {
-    title: "Extended Project Qualification (EPQ)",
-    role: "Author",
-    date: "2021",
-    description: "Authored an A*-graded academic research dissertation titled 'Autonomous Surgical Robotics: An Overview of the Challenges and Future Areas of Development.'",
-    tags: ["Research", "Academic Writing", "Robotics", "Healthcare"],
-    link: "#", // Could link to a PDF or summary if available
-  },
+  // Add more project objects here...
 ];
 ---
-<section id="projects" class="py-16 md:py-24 bg-gray-800/30"> {/* Slight background distinction */}
+
+<section id="projects" class="py-16 md:py-24 bg-gray-800/30">
   <div class="container mx-auto px-4">
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 animate-on-scroll">
       Projects & Experience Highlights
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {projects.map((project, index) => (
-        <div class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100}`}> {/* Added flex-col */}
+        <div class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100} cursor-pointer`}
+             data-modal-trigger={`project-modal-${index}`}
+        > 
           <h3 class="text-xl font-bold mb-2 text-teal-400">{project.title}</h3>
           <p class="text-sm text-gray-400 mb-1">{project.role} {project.date ? `| ${project.date}` : ''}</p>
-          <p class="text-gray-300 mb-4 flex-grow">{project.description}</p> {/* Added flex-grow */}
-          <div class="mt-auto pt-4 border-t border-gray-700/50"> {/* Ensures tags are at the bottom */}
-             <div class="flex flex-wrap gap-2">
+          <p class="text-gray-300 mb-4 flex-grow">{project.description}</p>
+          <div class="mt-auto pt-4 border-t border-gray-700/50">
+            <div class="flex flex-wrap gap-2 mb-4">
               {project.tags.map(tag => (
-                <span class="bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded">
-                  {tag}
-                </span>
+                <span class="text-sm font-semibold text-teal-300">{tag}</span>
               ))}
             </div>
-            {/* Optional: Add link conditionally */}
-            {/* {project.link !== '#' && (
-              <a href={project.link} class="inline-block text-teal-400 hover:text-teal-300 mt-4">Learn More →</a>
-            )} */}
+            <span class="text-teal-400 hover:text-teal-300 text-sm font-semibold">
+              Learn More →
+            </span>
           </div>
+
+          <!-- Hidden detailed content -->
+          <div class="project-details hidden" set:html={project.details}></div>
         </div>
       ))}
     </div>
   </div>
 </section>
 
-<style>
-  /* Base state for animation elements */
-  .animate-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  /* State when element becomes visible */
-  .animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  /* Simple delay utility classes - Add more if needed */
-  .delay-0 { transition-delay: 0s; }
-  .delay-100 { transition-delay: 0.1s; }
-  .delay-200 { transition-delay: 0.2s; }
-  .delay-300 { transition-delay: 0.3s; }
-  .delay-400 { transition-delay: 0.4s; }
-  .delay-500 { transition-delay: 0.5s; }
-  .delay-600 { transition-delay: 0.6s; }
-  .delay-700 { transition-delay: 0.7s; }
-   /* Ensure cards have a min height if needed, or use flex-grow on description */
-   .project-card {
-    min-height: 250px; /* Adjust as needed or rely on flex-grow */
-   }
-</style>
+<!-- Modal Structure -->
+<div id="project-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-75 hidden z-40"></div>
+<div id="project-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-6 md:p-8 rounded-lg shadow-xl z-50 w-11/12 md:w-3/4 lg:w-1/2 max-h-[80vh] overflow-y-auto hidden">
+    <button id="project-modal-close" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl">×</button>
+    <div id="project-modal-content">
+        <!-- Content will be injected here by JavaScript -->
+    </div>
+</div>
 
 <script>
-  // Re-using the same animation logic as the About section
+  // --- GSAP Animation Script (Keep as is) ---
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-
   gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener('DOMContentLoaded', () => { /* ... GSAP code ... */ });
+  // --- End GSAP Animation Script ---
 
+  // --- Modal Logic Script ---
   document.addEventListener('DOMContentLoaded', () => {
-    gsap.utils.toArray(".animate-on-scroll").forEach((element) => {
-      gsap.to(element, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6, // Slightly faster for cards?
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: element,
-          start: "top 90%", // Trigger slightly later for cards
-          // markers: true,
-          toggleActions: "play none none none",
+    const modalBackdrop = document.getElementById('project-modal-backdrop');
+    const modal = document.getElementById('project-modal');
+    const modalContent = document.getElementById('project-modal-content');
+    const closeModalButton = document.getElementById('project-modal-close');
+    const projectCards = document.querySelectorAll('.project-card[data-modal-trigger]');
+
+    // TypeScript fix: Explicitly define the type for `contentHtml`
+    function openModal(contentHtml: string) {
+      // Check if modalContent exists before accessing it
+      if (modalContent) {
+        modalContent.innerHTML = contentHtml;
+        // Ensure modalBackdrop and modal exist before manipulating them
+        if (modalBackdrop) {
+          modalBackdrop.classList.remove('hidden');
+        }
+        if (modal) {
+          modal.classList.remove('hidden');
+        }
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      }
+    }
+
+    function closeModal() {
+      // Check for nulls before accessing modal and modalBackdrop
+      if (modalBackdrop && modal) {
+        modalBackdrop.classList.add('hidden');
+        modal.classList.add('hidden');
+        if (modalContent) {
+          modalContent.innerHTML = ''; // Clear content
+        }
+        document.body.style.overflow = ''; // Restore background scrolling
+      }
+    }
+
+    projectCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const detailsDiv = card.querySelector('.project-details');
+        if (detailsDiv) {
+          openModal(detailsDiv.innerHTML); // Inject details into the modal
         }
       });
     });
-  });
 
-  // CSS Fallback Observer
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        // observer.unobserve(entry.target);
+    if (closeModalButton) {
+      closeModalButton.addEventListener('click', closeModal);
+    }
+    if (modalBackdrop) {
+      modalBackdrop.addEventListener('click', closeModal);
+    }
+
+    // Close modal on Escape key press
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeModal();
       }
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.animate-on-scroll').forEach(el => {
-    observer.observe(el);
   });
+  // --- End Modal Logic Script ---
 </script>

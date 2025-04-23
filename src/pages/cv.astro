@@ -10,6 +10,9 @@ const cvData = {
       dates: "Oct 2022 – June 2026 (Expected)",
       details: [
         "Awarded Bioengineering Academic Scholarship",
+        "Scored 96% (unmoderated) in Advanced Programming Module, incl. Image Processing",
+        "On track for 1st Class Honours",
+        // "Modules: Advanced Programming, Data Structures and Algorithms, Machine Learning, Biomedical Engineering Design, Medical Imaging, Biomechanics",
       ]
     },
     {
@@ -24,6 +27,14 @@ const cvData = {
     }
   ],
   experience: [
+  {
+      company: "Advanced Biomedical Instrumentation Centre (ABIC)",
+      title: "Incoming Machine Learning & Robotics Intern",
+      dates: "July 2025 – Aug 2025",
+      details: [
+        "Incoming intern at ABIC, focusing on ML and novel bioinstrumentation R&D in biomedical engineering.",
+      ]
+    },
     {
       company: "Oxford Nanopore Technologies",
       title: "Software Engineering Intern",
@@ -42,33 +53,95 @@ const cvData = {
         "Assisted in developing a new version of a medical device.",
         "Developed hardware systems and firmware in C using Raspberry Pico."
       ]
+    },
+    {
+      company: "Kickstart '23 Cohort",
+      title: "Entrepreneurial Program Participant",
+      dates: "Nov 2022 – Apr 2023",
+      details: [
+        "Accepted onto the Kickstart '23 Emerge Programme to develop a socio-altruistic startup.",
+        "Pitched to investors and refined business model through mentorship."
+      ]
     }
   ],
   projects: [
-    { title: "Improving Stem Cell Viability...", role: "Research Lead", date: "Oct 2024 - Present" },
-    { title: "Therakey", role: "Project Co-Lead", date: "Oct 2023 - June 2024" },
+    {
+      title: "Improving Stem Cell Viability in Syringe Injection",
+      role: "Research Lead",
+      date: "Oct 2024 – Present",
+      details: [
+        "Modelling fluid dynamics in stem cells and designing microfluidic chambers (MATLAB).",
+        "Academic research into ML tools for cell imaging. Main writer of the report, hoping to publish further findings. Returning to the lab in June."
+      ]
+    },
+    {
+      title: "Therakey",
+      role: "Project Co-Lead",
+      date: "Oct 2023 – June 2024",
+      details: [
+        "Designed hardware circuits and firmware (C on Raspberry Pico) for an arthritis rehabilitation device."
+      ]
+    },
+    {
+      title: "PPE Redistribution App",
+      role: "Solo Developer",
+      date: "2020",
+      details: [
+        "Built a Java mobile app with Firebase Realtime Database to advertise surplus PPE during COVID-19."
+      ]
+    },
+    {
+      title: "Personal Website",
+      role: "Full-Stack Developer",
+      date: "2018 – 2020",
+      details: [
+        "Created with Django (Python) back-end and HTML/CSS front-end."
+      ]
+    },
+    {
+      title: "App Development (Squashed Orange)",
+      role: "Mobile Game Developer",
+      date: "2017 – 2019",
+      details: [
+        "Published C# Unity games on Google Play Store and Microsoft Store."
+      ]
+    },
+    {
+      title: "Extended Project Qualification",
+      role: "Research Author",
+      date: "2021",
+      details: [
+        "Dissertation titled 'Autonomous Surgical Robotics: An Overview of the Challenges and Future Areas of Development. Graded A*.'"
+      ]
+    }
   ],
   skills: [
-    { category: "Programming", items: "C++, Python, C, Java, C#, MATLAB, HTML/CSS" },
+    { category: "Programming Languages", items: "C++ (strong), Python (strong), Kotlin (intermediate), MATLAB (intermediate)" },
     { category: "Frameworks/Libraries", items: "PyTorch, Django, Unity Engine" },
-    { category: "Hardware", items: "Raspberry Pico, Embedded Systems" },
+    { category: "Hardware", items: "Microcontrollers inc. Seeed XiaoRaspberry Pico, Embedded Linux Systems" },
+    { category: "Specialised Skills", items: "Image Processing/Computer Vision, CNNs, RNNs, Reinforcement Learning, Deep Learning, Fluid Mechanics, CFD, FEA" }
   ],
-  leadership: [
-    { role: "Sponsorship Lead", org: "Imperial College London MedTech Society", dates: "Aug 2023 – Aug 2024" },
-    { role: "Vice President", org: "Imperial College London Sri Lankan Society", dates: "Mar 2023 – Feb 2024" },
-    { role: "Secretary", org: "Imperial Medicals Cricket Club (IMCC)", dates: "Aug 2023 – Aug 2024" },
+  certifications: [
+    { name: "ABRSM Grade 8 Piano", date: "Dec 2019", result: "Merit" },
+    { name: "ABRSM Grade 8 Classical Guitar", date: "Dec 2019", result: "Distinction" },
+    { name: "ABRSM Grade 5 Music Theory", date: "Mar 2018", result: "Merit" },
+    { name: "HSK Level II", date: "Dec 2020", score: "90.5%" }
   ],
   awards: [
     "Bioengineering Academic Scholarship, Imperial College London",
-    "Physics Prize (2021), Bishop's Stortford College",
+    "Physics Prize (2021), Bishop's Stortford College"
   ]
 };
 ---
-<BaseLayout title="Anish Mariathasan - CV">
+
+<BaseLayout title="Anish Mariathasan – CV">
   <div class="container mx-auto px-4 py-8 md:py-12">
+    <!-- Top note -->
+    <p class="text-center italic text-gray-400 mb-6">References available upon request</p>
+
     <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Curriculum Vitae</h1>
 
-    <!-- ✅ Pretty Download PDF Button -->
+    <!-- Download PDF Button -->
     <div class="text-center mb-10">
       <a 
         href="/files/Anish_Mariathasan_CV.pdf" 
@@ -83,6 +156,7 @@ const cvData = {
       </a>
     </div>
 
+    <!-- Education -->
     <section class="mb-10">
       <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Education</h2>
       {cvData.education.map(edu => (
@@ -97,6 +171,7 @@ const cvData = {
       ))}
     </section>
 
+    <!-- Experience -->
     <section class="mb-10">
       <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Experience</h2>
       {cvData.experience.map(exp => (
@@ -111,11 +186,47 @@ const cvData = {
       ))}
     </section>
 
+    <!-- Projects -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Skills</h2>
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Projects & Research</h2>
+      {cvData.projects.map(proj => (
+        <div class="mb-4">
+          <h3 class="text-xl font-bold">{proj.title}</h3>
+          <p class="text-lg text-gray-300">{proj.role}</p>
+          <p class="text-sm text-gray-400 mb-1">{proj.date}</p>
+          <ul class="list-disc list-inside text-gray-300 ml-4">
+            {proj.details.map(detail => <li>{detail}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <!-- Skills -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Skills & Languages</h2>
       {cvData.skills.map(skill => (
         <p class="mb-1"><strong class="font-semibold text-gray-200">{skill.category}:</strong> {skill.items}</p>
       ))}
+    </section>
+
+    <!-- Certifications -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Certifications</h2>
+      <ul class="list-disc list-inside text-gray-300 ml-4">
+        {cvData.certifications.map(cert => (
+          <li>
+            {cert.name}, {cert.date}{cert.result ? ` — ${cert.result}` : ''}{cert.score ? ` — ${cert.score}` : ''}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Awards -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Awards</h2>
+      <ul class="list-disc list-inside text-gray-300 ml-4">
+        {cvData.awards.map(award => <li>{award}</li>)}
+      </ul>
     </section>
   </div>
 </BaseLayout>
