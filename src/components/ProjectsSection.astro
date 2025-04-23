@@ -1,5 +1,4 @@
 ---
-// src/components/ProjectsSection.astro
 const projects = [
   {
     title: "Therakey",
@@ -19,9 +18,28 @@ const projects = [
       </ul>
       <p>Technologies Used: C, Raspberry Pico, Embedded Systems, KiCad (example).</p>
     `,
-    link: "#", 
+    link: "#",
   },
-  // Add more project objects here...
+  {
+    title: "Project X",
+    role: "Developer",
+    date: "Jan 2022 - Dec 2022",
+    description: "Developed a software platform for managing healthcare data.",
+    tags: ["JavaScript", "React", "Node.js", "MongoDB"],
+    details: `
+      <h4 class='text-lg font-semibold mb-2'>Project Details</h4>
+      <p class='mb-2'>Developed a full-stack healthcare platform focused on secure patient data management.</p>
+      <p class='mb-2'>My responsibilities included:</p>
+      <ul class='list-disc list-inside mb-2'>
+        <li>Frontend development with React.</li>
+        <li>Backend API with Node.js and Express.</li>
+        <li>Database design and integration using MongoDB.</li>
+      </ul>
+      <p>Technologies Used: JavaScript, React, Node.js, MongoDB.</p>
+    `,
+    link: "#",
+  },
+  // Add more projects here as needed
 ];
 ---
 
@@ -34,14 +52,14 @@ const projects = [
       {projects.map((project, index) => (
         <div class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100} cursor-pointer`}
              data-modal-trigger={`project-modal-${index}`}
-        > 
+        >
           <h3 class="text-xl font-bold mb-2 text-teal-400">{project.title}</h3>
           <p class="text-sm text-gray-400 mb-1">{project.role} {project.date ? `| ${project.date}` : ''}</p>
           <p class="text-gray-300 mb-4 flex-grow">{project.description}</p>
           <div class="mt-auto pt-4 border-t border-gray-700/50">
             <div class="flex flex-wrap gap-2 mb-4">
               {project.tags.map(tag => (
-                <span class="text-sm font-semibold text-teal-300">{tag}</span>
+                <span key={tag} class="text-sm font-semibold bg-teal-500 text-white py-1 px-3 rounded-full">{tag}</span>
               ))}
             </div>
             <span class="text-teal-400 hover:text-teal-300 text-sm font-semibold">
@@ -67,12 +85,25 @@ const projects = [
 </div>
 
 <script>
-  // --- GSAP Animation Script (Keep as is) ---
+  // --- GSAP Animation Script ---
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener('DOMContentLoaded', () => { /* ... GSAP code ... */ });
-  // --- End GSAP Animation Script ---
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Apply GSAP fade-in effect on project cards
+    gsap.from(".project-card", {
+      opacity: 0,
+      duration: 1.5,
+      stagger: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".project-card",
+        start: "top 80%", // Trigger when the card is 80% from top of the viewport
+        toggleActions: "play none none none",
+      }
+    });
+  });
 
   // --- Modal Logic Script ---
   document.addEventListener('DOMContentLoaded', () => {
@@ -82,30 +113,20 @@ const projects = [
     const closeModalButton = document.getElementById('project-modal-close');
     const projectCards = document.querySelectorAll('.project-card[data-modal-trigger]');
 
-    // TypeScript fix: Explicitly define the type for `contentHtml`
     function openModal(contentHtml: string) {
-      // Check if modalContent exists before accessing it
       if (modalContent) {
         modalContent.innerHTML = contentHtml;
-        // Ensure modalBackdrop and modal exist before manipulating them
-        if (modalBackdrop) {
-          modalBackdrop.classList.remove('hidden');
-        }
-        if (modal) {
-          modal.classList.remove('hidden');
-        }
+        if (modalBackdrop) modalBackdrop.classList.remove('hidden');
+        if (modal) modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
       }
     }
 
     function closeModal() {
-      // Check for nulls before accessing modal and modalBackdrop
       if (modalBackdrop && modal) {
         modalBackdrop.classList.add('hidden');
         modal.classList.add('hidden');
-        if (modalContent) {
-          modalContent.innerHTML = ''; // Clear content
-        }
+        if (modalContent) modalContent.innerHTML = ''; // Clear content
         document.body.style.overflow = ''; // Restore background scrolling
       }
     }
@@ -119,12 +140,8 @@ const projects = [
       });
     });
 
-    if (closeModalButton) {
-      closeModalButton.addEventListener('click', closeModal);
-    }
-    if (modalBackdrop) {
-      modalBackdrop.addEventListener('click', closeModal);
-    }
+    if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
+    if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
     // Close modal on Escape key press
     document.addEventListener('keydown', (event) => {
@@ -133,5 +150,4 @@ const projects = [
       }
     });
   });
-  // --- End Modal Logic Script ---
 </script>
