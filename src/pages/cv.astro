@@ -1,0 +1,121 @@
+---
+// src/pages/cv.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const cvData = {
+  education: [
+    {
+      institution: "Imperial College London",
+      degree: "MEng Biomedical Engineering",
+      dates: "Oct 2022 – June 2026 (Expected)",
+      details: [
+        "Awarded Bioengineering Academic Scholarship",
+      ]
+    },
+    {
+      institution: "Bishop's Stortford College",
+      degree: "A Levels (4A* A)",
+      dates: "2010 – 2022",
+      details: [
+        "A*: Maths, Further Maths, Physics, EPQ | A: Chemistry",
+        "Academic and Music Scholarships",
+        "Winner of the Physics Prize (2021)"
+      ]
+    }
+  ],
+  experience: [
+    {
+      company: "Oxford Nanopore Technologies",
+      title: "Software Engineering Intern",
+      dates: "July 2024 – Sept 2024",
+      details: [
+        "Developed C++ features for Core Software, including bug fixes and unit tests.",
+        "Gained exposure to ML for base-calling using PyTorch.",
+        "Built 'Moonwall', a Python data aggregation and visualisation tool."
+      ]
+    },
+    {
+      company: "Thermetrix Ltd.",
+      title: "Firmware Engineer Intern",
+      dates: "Aug 2023 – Sept 2023",
+      details: [
+        "Assisted in developing a new version of a medical device.",
+        "Developed hardware systems and firmware in C using Raspberry Pico."
+      ]
+    }
+  ],
+  projects: [
+    { title: "Improving Stem Cell Viability...", role: "Research Lead", date: "Oct 2024 - Present" },
+    { title: "Therakey", role: "Project Co-Lead", date: "Oct 2023 - June 2024" },
+  ],
+  skills: [
+    { category: "Programming", items: "C++, Python, C, Java, C#, MATLAB, HTML/CSS" },
+    { category: "Frameworks/Libraries", items: "PyTorch, Django, Unity Engine" },
+    { category: "Hardware", items: "Raspberry Pico, Embedded Systems" },
+  ],
+  leadership: [
+    { role: "Sponsorship Lead", org: "Imperial College London MedTech Society", dates: "Aug 2023 – Aug 2024" },
+    { role: "Vice President", org: "Imperial College London Sri Lankan Society", dates: "Mar 2023 – Feb 2024" },
+    { role: "Secretary", org: "Imperial Medicals Cricket Club (IMCC)", dates: "Aug 2023 – Aug 2024" },
+  ],
+  awards: [
+    "Bioengineering Academic Scholarship, Imperial College London",
+    "Physics Prize (2021), Bishop's Stortford College",
+  ]
+};
+---
+<BaseLayout title="Anish Mariathasan - CV">
+  <div class="container mx-auto px-4 py-8 md:py-12">
+    <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Curriculum Vitae</h1>
+
+    <!-- ✅ Pretty Download PDF Button -->
+    <div class="text-center mb-10">
+      <a 
+        href="/files/Anish_Mariathasan_CV.pdf" 
+        class="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold py-2 px-5 rounded-lg shadow-lg transition-all duration-300 ease-in-out"
+        target="_blank"
+        download
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+        </svg>
+        Download Full PDF
+      </a>
+    </div>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Education</h2>
+      {cvData.education.map(edu => (
+        <div class="mb-4">
+          <h3 class="text-xl font-bold">{edu.institution}</h3>
+          <p class="text-lg text-gray-300">{edu.degree}</p>
+          <p class="text-sm text-gray-400 mb-1">{edu.dates}</p>
+          <ul class="list-disc list-inside text-gray-300 ml-4">
+            {edu.details.map(detail => <li>{detail}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Experience</h2>
+      {cvData.experience.map(exp => (
+        <div class="mb-4">
+          <h3 class="text-xl font-bold">{exp.company}</h3>
+          <p class="text-lg text-gray-300">{exp.title}</p>
+          <p class="text-sm text-gray-400 mb-1">{exp.dates}</p>
+          <ul class="list-disc list-inside text-gray-300 ml-4">
+            {exp.details.map(detail => <li>{detail}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Skills</h2>
+      {cvData.skills.map(skill => (
+        <p class="mb-1"><strong class="font-semibold text-gray-200">{skill.category}:</strong> {skill.items}</p>
+      ))}
+    </section>
+  </div>
+</BaseLayout>
