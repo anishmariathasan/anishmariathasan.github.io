@@ -9,13 +9,13 @@
     </h2>
     <div class="text-lg md:text-xl text-gray-300 leading-relaxed space-y-4 animate-on-scroll delay-100">
       <p>
-        I'm a Biomedical Engineering MEng student at <strong class="text-teal-400 font-semibold">Imperial College London</strong>, passionate about applying technology to solve real-world medical challenges. My studies, supplemented by an Academic Scholarship and strong performance in modules like Advanced Programming (96%), form the foundation of my technical skills.
+        I'm an engineering student at <strong class="text-teal-400 font-semibold">Imperial College London</strong>, passionate about applying technology to solve real-world challenges. My studies, supplemented by an Academic Scholarship and strong performance in modules like Advanced Programming (96%), form the foundation of my technical skills.
       </p>
       <p>
-        My experience spans <strong class="text-teal-400 font-semibold">software engineering</strong> (C++, Python, Java, C#), <strong class="text-teal-400 font-semibold">machine learning</strong> (PyTorch exposure at Oxford Nanopore), <strong class="text-teal-400 font-semibold">firmware development</strong> (C on Raspberry Pico at Thermetrix), and <strong class="text-teal-400 font-semibold">web development</strong> (Python/Django). I enjoy the full development cycle, from conceptualization and hardware design to software implementation and data analysis (MATLAB).
+        My experience spans <strong class="text-teal-400 font-semibold">software engineering</strong> (C++, Python, Kotlin), <strong class="text-teal-400 font-semibold">machine learning</strong> (PyTorch exposure at Oxford Nanopore), <strong class="text-teal-400 font-semibold">firmware development</strong> (Arduino C on OedaSock, C on Raspberry Pico at Thermetrix), and <strong class="text-teal-400 font-semibold">web development</strong> (Python/Django). I enjoy the full development cycle, from conceptualisation and hardware design to software implementation and data analysis.
       </p>
       <p>
-        Beyond academics and internships, I co-founded a socio-altruistic startup concept through the <strong class="text-teal-400 font-semibold">Kickstart '23 Emerge Programme</strong> and take leadership roles in societies like MedTech and Sri Lankan Society at Imperial. I'm always eager to learn and contribute to innovative projects in the MedTech space.
+        Beyond academics and internships, I co-founded a socio-altruistic startup concept through the <strong class="text-teal-400 font-semibold">Kickstart '23 Emerge Programme</strong> and take leadership roles in societies at Imperial. I'm always eager to learn and contribute to innovative projects, especially in the AI in healthcare/tech startup space.
       </p>
     </div>
   </div>
@@ -26,7 +26,7 @@
   .animate-on-scroll {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
   /* State when element becomes visible */
   .animate-on-scroll.is-visible {
@@ -45,7 +45,7 @@
 
   // Use GSAP to animate elements when they scroll into view
   document.addEventListener('DOMContentLoaded', () => {
-    gsap.utils.toArray(".animate-on-scroll").forEach((element) => {
+    gsap.utils.toArray<HTMLElement>(".animate-on-scroll").forEach((element) => {
       gsap.to(element, {
         opacity: 1,
         y: 0,

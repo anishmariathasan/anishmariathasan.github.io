@@ -1,97 +1,100 @@
 ---
 // src/layouts/BaseLayout.astro
-import '../styles/global.css'; // Import Tailwind base styles if using, or your global CSS
+import '../styles/global.css';
+import Sidebar from '../components/Sidebar.astro';
+import MobileMenuToggle from '../components/MobileMenuToggle.astro';
 
-// Props interface allows passing data like title to the layout
 export interface Props {
     title: string;
-    description?: string; // Optional description for meta tags
+    description?: string;
 }
 
 const { title, description = "anish on the internet" } = Astro.props;
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> <!-- Make sure favicon.svg is in public/ -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    <!-- Add global styles or font links here -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Imported Syne Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Add any global scripts or head elements -->
+    {/* You might place global scripts or head elements here if needed */}
 </head>
-<body class="bg-gray-900 text-gray-100 font-['Inter']"> <!-- Example Tailwind classes -->
-    <!-- We'll add a cursor effect element later -->
-    <div id="custom-cursor" class="custom-cursor"></div>
+<body class="bg-gray-900 text-gray-100 font-['Syne Mono'] relative">
 
-    <header class="p-4">
-        <!-- Simple Nav Example -->
-        <nav class="container mx-auto flex justify-between">
-            <a href="/" class="text-xl font-bold">anish</a>
-            <div>
-                <a href="/#about" class="mx-2 hover:text-teal-400">About</a>
-                <a href="/#projects" class="mx-2 hover:text-teal-400">Projects</a>
-                <a href="/cv" class="mx-2 hover:text-teal-400">CV</a>
-                <!-- Add more links -->
-            </div>
-        </nav>
-    </header>
+    {/* Include Sidebar */}
+    <Sidebar />
 
-    <main class="container mx-auto p-4">
-        <slot /> <!-- Page content will be injected here -->
-    </main>
+    {/* Include Mobile Menu Toggle (only visible on mobile) */}
+    <MobileMenuToggle />
 
-    <footer class="text-center p-4 mt-8 text-sm text-gray-500">
-        © {new Date().getFullYear()} Anish Mariathasan
-        <!-- Add social links here -->
-    </footer>
+    {/* Main Content Area */}
+    {/* Apply margin-left only on medium screens and up to account for the sidebar width */}
+    <div class="flex-1 md:ml-64 transition-all duration-300 ease-in-out">
 
-    <!-- Add scripts needed on every page, e.g., for the cursor -->
+        {/* The <main> tag typically holds the primary content of the page */}
+        {/* Container and padding can be applied here or within specific page sections */}
+        <main>
+            <slot /> {/* Page content (Hero, About, Projects sections) will be injected here */}
+        </main>
+
+        {/* Footer remains part of the main content flow */}
+        <footer class="text-center p-4 mt-12 text-sm text-gray-500">
+            © {new Date().getFullYear()} Anish Mariathasan
+        </footer>
+
+    </div> {/* End Main Content Area */}
+
+    {/* Custom Cursor Element (Optional) */}
+    <div id="custom-cursor" class="custom-cursor hidden md:block"></div> {/* Hide cursor on mobile? */}
+
+    {/* Add scripts needed on every page */}
+    {/* Ensure your custom cursor script is loaded */}
     <script src="/scripts/cursor.js" is:inline></script>
- <!-- We will create this file -->
+
 </body>
 </html>
 
 <style is:global>
-  /* Basic global styles if not using Tailwind base */
+  /* Basic global styles */
+  body, a, button {
+    cursor: none !important;
+  }
   body {
     margin: 0;
-    font-family: 'Inter', sans-serif; /* Example font */
-    /* Hide the default cursor */
-    cursor: none;
-  }
-  /* Make links usable with custom cursor */
-  a, button {
-    cursor: none; /* Inherit or specify custom cursor interaction */
+    font-family: 'Syne Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
+                 Consolas, 'Liberation Mono', 'Courier New', monospace;
   }
 
-  /* Style the custom cursor element (example) */
+  /* Style the custom cursor element */
   .custom-cursor {
     position: fixed;
     left: 0;
     top: 0;
-    pointer-events: none; /* Allows clicking through */
+    pointer-events: none;
     width: 20px;
     height: 20px;
-    background-color: rgba(0, 255, 255, 0.5); /* Cyan, semi-transparent */
+    background-color: rgba(0, 255, 255, 0.5);
     border-radius: 50%;
-    transform: translate(-50%, -50%); /* Center on cursor */
-    transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background-color 0.2s ease; /* Smooth movement and hover effect */
-    z-index: 9999; /* Ensure it's on top */
-    mix-blend-mode: difference; /* Cool blend effect */
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+    z-index: 9999;
+    mix-blend-mode: difference;
   }
 
-  /* Example hover effect for cursor */
-  body:has(a:hover) .custom-cursor,
-  body:has(button:hover) .custom-cursor {
-     transform: translate(-50%, -50%) scale(1.5); /* Grow */
-     background-color: rgba(255, 255, 255, 0.8);
-  }
+  /* Prevent layout shift when scrollbar appears/disappears */
+   body.overflow-hidden {
+       padding-right: 0px;
+   }
 </style>

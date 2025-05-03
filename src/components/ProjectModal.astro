@@ -1,0 +1,453 @@
+---
+// src/components/ProjectModal.astro
+// This component renders a modal for expanded project details
+---
+
+<div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out" aria-modal="true" role="dialog" aria-labelledby="modal-title"> {/* Added aria-labelledby */}
+  {/* Backdrop */}
+  <div id="modal-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+  {/* Modal content */}
+  <div class="modal-content bg-gray-800 rounded-lg shadow-xl max-w-3xl w-full mx-auto relative z-10 overflow-hidden flex flex-col transform scale-95 transition-transform duration-300 ease-in-out">
+    {/* Close button */}
+    <button id="close-modal" class="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors duration-200 z-20" aria-label="Close project details">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    {/* Header with title and meta info */}
+    <div class="modal-header p-6 border-b border-gray-700/50">
+      {/* IMPORTANT: ID used for aria-labelledby */}
+      <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-teal-400 pr-8">Project Title Placeholder</h2>
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
+        <p id="modal-role" class="text-sm text-gray-300 font-medium"></p>
+        <span id="modal-separator" class="text-gray-500 hidden md:inline">|</span> {/* Added ID */}
+        <p id="modal-date" class="text-sm text-gray-400"></p>
+      </div>
+    </div>
+
+    {/* Scrollable Content area */}
+    <div class="modal-body p-6 overflow-y-auto flex-1"> {/* Make body scrollable */}
+      {/* Image carousel (if images are available) */}
+      <div id="modal-carousel" class="mb-6 hidden">
+        <div class="carousel-container relative h-64 md:h-80 bg-gray-900/50 rounded-lg overflow-hidden shadow-inner">
+          <div id="carousel-slides" class="flex transition-transform duration-300 ease-in-out h-full">
+            {/* Slides injected here */}
+          </div>
+
+          {/* Navigation arrows - Only show if multiple slides */}
+          <button id="prev-slide" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black/50 rounded-full p-2 text-white hover:bg-black/70 transition-colors duration-200 opacity-0 pointer-events-none carousel-nav" aria-label="Previous slide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button id="next-slide" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black/50 rounded-full p-2 text-white hover:bg-black/70 transition-colors duration-200 opacity-0 pointer-events-none carousel-nav" aria-label="Next slide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Dots indicator - Only show if multiple slides */}
+          <div id="carousel-dots" class="absolute bottom-3 left-0 right-0 flex justify-center gap-2 opacity-0 pointer-events-none carousel-nav">
+             {/* Dots injected here */}
+          </div>
+        </div>
+      </div>
+
+      {/* Project description */}
+      <div>
+        <h3 class="text-xl font-semibold mb-3 text-white">Project Details</h3>
+        {/* Use Tailwind prose for better typography if plugin installed */}
+        <div id="modal-description" class="text-gray-300 space-y-4 prose prose-invert max-w-none prose-p:text-gray-300 prose-ul:text-gray-300 prose-li:text-gray-300">
+          {/* Description injected here */}
+        </div>
+      </div>
+    </div>
+
+    {/* Footer with tags and links */}
+    <div class="modal-footer p-6 border-t border-gray-700/50 bg-gray-800"> {/* Ensure footer isn't transparent */}
+      <h4 class="text-sm font-semibold text-gray-400 mb-3">Technologies & Skills</h4>
+      <div id="modal-tags" class="flex flex-wrap gap-2 mb-4">
+         {/* Tags injected here */}
+      </div>
+
+      <div id="modal-links" class="flex flex-wrap gap-x-4 gap-y-2 mt-4 pt-4 border-t border-gray-700/30">
+        {/* Links will be populated dynamically */}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Store references to modal elements globally within the script's scope
+  let modalElement, modalContentElement, modalTitleElement, modalRoleElement, modalDateElement, modalSeparatorElement, modalDescriptionElement, modalTagsElement, modalLinksElement, modalCarouselElement, carouselSlidesElement, carouselDotsElement, prevSlideButton, nextSlideButton, closeButton, modalBackdrop;
+
+  // Function to initialize element references
+  function initializeModalElements() {
+      modalElement = document.getElementById('project-modal');
+      modalContentElement = modalElement?.querySelector('.modal-content'); // Query within modal
+      modalTitleElement = document.getElementById('modal-title'); // Title is used for aria-labelledby
+      modalRoleElement = modalElement?.querySelector('#modal-role');
+      modalDateElement = modalElement?.querySelector('#modal-date');
+      modalSeparatorElement = modalElement?.querySelector('#modal-separator');
+      modalDescriptionElement = modalElement?.querySelector('#modal-description');
+      modalTagsElement = modalElement?.querySelector('#modal-tags');
+      modalLinksElement = modalElement?.querySelector('#modal-links');
+      modalCarouselElement = modalElement?.querySelector('#modal-carousel');
+      carouselSlidesElement = modalElement?.querySelector('#carousel-slides');
+      carouselDotsElement = modalElement?.querySelector('#carousel-dots');
+      prevSlideButton = modalElement?.querySelector('#prev-slide');
+      nextSlideButton = modalElement?.querySelector('#next-slide');
+      closeButton = modalElement?.querySelector('#close-modal');
+      modalBackdrop = modalElement?.querySelector('#modal-backdrop');
+
+      // Check if essential elements are found
+      if (!modalElement || !modalContentElement || !closeButton || !modalBackdrop || !modalTitleElement) {
+           console.error("Essential modal elements could not be found! Check IDs and structure.");
+           return false; // Indicate failure
+      }
+      return true; // Indicate success
+  }
+
+
+  let currentProject: any = null;
+  let currentSlide = 0;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Try to initialize elements
+    if (!initializeModalElements()) {
+        return; // Stop if essential elements are missing
+    }
+
+    // Add event listeners only if elements exist
+    if (closeButton) {
+        closeButton.addEventListener('click', closeModal);
+    }
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', closeModal);
+    }
+    if (prevSlideButton) {
+        prevSlideButton.addEventListener('click', (e) => { e.stopPropagation(); navigateCarousel(-1); });
+    }
+    if (nextSlideButton) {
+        nextSlideButton.addEventListener('click', (e) => { e.stopPropagation(); navigateCarousel(1); });
+    }
+
+    // Global Escape key listener
+    document.addEventListener('keydown', (e) => {
+      // Check if modal is visible before closing
+      if (e.key === 'Escape' && modalElement && modalElement.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  });
+
+  // Open modal function
+  function openProjectModal(project) {
+    // Defensive check: Ensure project data is provided
+    if (!project) {
+        console.error("openProjectModal called with null or undefined project data.");
+        return;
+    }
+    // Re-initialize elements in case they were somehow lost (though unlikely with DOMContentLoaded)
+    if (!initializeModalElements()) return;
+
+    console.log("Opening modal for project:", project); // Log project data for debugging
+    currentProject = project;
+
+    // --- Populate Modal Content ---
+    // Use optional chaining (?.) and nullish coalescing (??) for safety
+
+    if (modalTitleElement) modalTitleElement.textContent = project.title ?? 'Project Title'; // Provide default
+
+    if (modalRoleElement) modalRoleElement.textContent = project.role ?? '';
+    if (modalDateElement) modalDateElement.textContent = project.date ?? '';
+
+    // Show separator only if both role and date are present
+    if(modalSeparatorElement) modalSeparatorElement.classList.toggle('hidden', !(project.role && project.date));
+
+
+    // Populate description
+    if (modalDescriptionElement) {
+        modalDescriptionElement.innerHTML = ''; // Clear previous
+        const descriptionContent = project.fullDescription ?? project.description ?? ''; // Prefer fullDescription
+        if (Array.isArray(descriptionContent)) {
+            descriptionContent.forEach(para => {
+                const p = document.createElement('p');
+                // Allow HTML within description paragraphs if needed safely
+                p.innerHTML = para; // Be cautious if 'para' can contain untrusted HTML
+                modalDescriptionElement.appendChild(p);
+            });
+        } else if (typeof descriptionContent === 'string') {
+            // Allow HTML in the description string
+            modalDescriptionElement.innerHTML = descriptionContent;
+        }
+    } else {
+        console.error("Modal description element not found.");
+    }
+
+    // Populate tags
+    if (modalTagsElement) {
+        modalTagsElement.innerHTML = ''; // Clear previous
+        if (Array.isArray(project.tags) && project.tags.length > 0) {
+            project.tags.forEach(tag => {
+                if (typeof tag === 'string') { // Check if tag is a string
+                    const span = document.createElement('span');
+                    span.className = 'bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded';
+                    span.textContent = tag;
+                    modalTagsElement.appendChild(span);
+                }
+            });
+        }
+    } else {
+         console.error("Modal tags element not found.");
+    }
+
+    // Setup image carousel
+    setupCarousel(project);
+
+    // Populate links
+    if (modalLinksElement) {
+        modalLinksElement.innerHTML = ''; // Clear previous
+        if (project.githubLink) {
+            modalLinksElement.appendChild(createLink(project.githubLink, 'GitHub', `... GitHub SVG ...`)); // Abbreviated SVG
+        }
+        if (project.demoLink) { // Use demoLink as expected by previous code
+            modalLinksElement.appendChild(createLink(project.demoLink, 'Live Demo', `... Demo Link SVG ...`)); // Abbreviated SVG
+        }
+    } else {
+         console.error("Modal links element not found.");
+    }
+
+
+    // --- Show Modal ---
+    if (modalElement && modalContentElement) {
+        modalElement.classList.add('active');
+        modalElement.classList.remove('opacity-0', 'pointer-events-none', 'hidden'); // Ensure hidden is removed
+        modalContentElement.classList.remove('scale-95');
+        document.body.classList.add('overflow-hidden'); // Prevent background scroll
+        // Scroll modal body (not content element) to top
+        const modalBody = modalElement.querySelector('.modal-body');
+        if(modalBody) modalBody.scrollTop = 0;
+
+        // Focus the modal container or close button for accessibility
+         closeButton?.focus();
+
+    } else {
+        console.error("Cannot show modal - modalElement or modalContentElement not found.");
+    }
+  }
+
+  function setupCarousel(project) {
+    // Ensure all carousel-related elements are found
+    if (!modalCarouselElement || !carouselSlidesElement || !carouselDotsElement) {
+        console.error("Carousel elements missing.");
+        if(modalCarouselElement) modalCarouselElement.classList.add('hidden'); // Hide if incomplete
+        return;
+    }
+    // Ensure nav buttons are found before proceeding
+     if (!prevSlideButton || !nextSlideButton) {
+        console.error("Carousel navigation buttons missing.");
+         // Decide if carousel should still show without buttons
+    }
+
+    // Clear previous content
+    carouselSlidesElement.innerHTML = '';
+    carouselDotsElement.innerHTML = '';
+
+    // Check if project data and images array are valid
+    if (project && Array.isArray(project.images) && project.images.length > 0) {
+        modalCarouselElement.classList.remove('hidden');
+
+        project.images.forEach((imgData, index) => {
+            // Validate image data object
+            if (typeof imgData !== 'object' || imgData === null || typeof imgData.src !== 'string') {
+                console.error(`Invalid image data at index ${index}:`, imgData);
+                return; // Skip this invalid image entry
+            }
+
+            // Create slide
+            const slide = document.createElement('div');
+            slide.className = 'w-full flex-shrink-0 h-full bg-black/20 flex items-center justify-center';
+
+            const imgEl = document.createElement('img');
+            imgEl.src = imgData.src;
+            // Provide default alt text if missing
+            imgEl.alt = imgData.alt || `${project.title || 'Project'} image ${index + 1}`;
+            imgEl.className = 'w-auto h-full object-contain max-w-full'; // contain fits image fully
+            imgEl.loading = 'lazy';
+
+            // Error handling for image loading
+            imgEl.onerror = () => {
+                console.error(`Failed to load image: ${imgData.src}`);
+                imgEl.alt = `Error loading image: ${imgEl.alt}`; // Update alt text on error
+                // Optionally display a placeholder or hide the slide
+                slide.innerHTML = `<div class="text-gray-400 text-sm p-4">Image not available</div>`;
+            };
+
+            slide.appendChild(imgEl);
+            carouselSlidesElement.appendChild(slide);
+
+            // Create dot (only if multiple images)
+            if (project.images.length > 1) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-colors duration-200 ${index === 0 ? 'bg-teal-400' : 'bg-gray-400 hover:bg-gray-300'}`;
+                dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                dot.addEventListener('click', () => { goToSlide(index); });
+                carouselDotsElement.appendChild(dot);
+            }
+        });
+
+        currentSlide = 0; // Reset slide index
+        const numSlides = carouselSlidesElement.children.length; // Count actual slides added
+
+        if (numSlides > 0) {
+            updateCarousel(numSlides); // Initial update based on actual slides
+
+            // Show/hide nav based on actual slide count
+            const showNav = numSlides > 1;
+            const navElements = modalElement?.querySelectorAll('.carousel-nav') ?? []; // Includes arrows and dots container
+             navElements.forEach(nav => {
+                nav.classList.toggle('opacity-0', !showNav);
+                nav.classList.toggle('pointer-events-none', !showNav);
+            });
+        } else {
+             // Hide carousel if no valid slides were added
+             modalCarouselElement.classList.add('hidden');
+             console.warn("Carousel hidden because no valid images were processed.");
+        }
+
+
+    } else {
+        // Hide carousel if no images array or it's empty
+        modalCarouselElement.classList.add('hidden');
+        // Ensure nav is hidden too
+        const navElements = modalElement?.querySelectorAll('.carousel-nav') ?? [];
+         navElements.forEach(nav => {
+            nav.classList.add('opacity-0', 'pointer-events-none');
+        });
+    }
+}
+
+
+  function closeModal() {
+    if (!modalElement || !modalContentElement) return; // Check if elements exist
+
+    modalElement.classList.remove('active');
+    modalElement.classList.add('opacity-0', 'pointer-events-none');
+    modalElement.classList.add('hidden'); // Explicitly hide after transition
+    modalContentElement.classList.add('scale-95');
+    document.body.classList.remove('overflow-hidden');
+    currentProject = null; // Clear current project
+  }
+
+  function navigateCarousel(direction) {
+    // Ensure project and images exist and there's more than one slide
+    if (!currentProject?.images || carouselSlidesElement.children.length <= 1) return;
+
+    const numSlides = carouselSlidesElement.children.length;
+    currentSlide = (currentSlide + direction + numSlides) % numSlides; // Loop around
+    updateCarousel(numSlides);
+  }
+
+  function goToSlide(index) {
+    if (!currentProject?.images || carouselSlidesElement.children.length <= 1) return;
+    const numSlides = carouselSlidesElement.children.length;
+    if (index < 0 || index >= numSlides) return; // Index out of bounds
+
+    currentSlide = index;
+    updateCarousel(numSlides);
+  }
+
+  function updateCarousel(numSlides) {
+    // Only update if slides container exists and there are slides
+    if (carouselSlidesElement && numSlides > 0) {
+        carouselSlidesElement.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    // Only update dots if dots container exists
+    if (carouselDotsElement) {
+        const dots = carouselDotsElement.querySelectorAll('button');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('bg-teal-400', index === currentSlide);
+            dot.classList.toggle('bg-gray-400', index !== currentSlide);
+            dot.classList.toggle('hover:bg-gray-300', index !== currentSlide);
+        });
+    }
+  }
+
+  // Helper to create links (SVG content abbreviated for clarity)
+  function createLink(href, text, svgIcon) {
+      const link = document.createElement('a');
+      link.href = href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium';
+      // IMPORTANT: Replace placeholder SVGs with your actual SVG code
+      if (text === 'GitHub') {
+           link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.649.5.5 5.649.5 12c0 5.094 3.292 9.41 7.865 10.942...Z"/></svg> ${text}`;
+      } else if (text === 'Live Demo') {
+           link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg> ${text}`;
+      } else {
+          link.textContent = text; // Fallback if no icon
+      }
+      return link;
+  }
+
+  // Expose open function to global scope
+
+  declare global {
+    interface Window {
+      openProjectModal: (project: any) => void;
+    }
+  }
+  window.openProjectModal = openProjectModal;
+
+</script>
+
+<style>
+  .modal-content {
+    max-height: 90vh; /* Limit modal height */
+  }
+  .modal-body {
+     /* Enable scrolling only for the body */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  /* Add active class for visibility */
+  #project-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+   #project-modal.active .modal-content {
+      transform: scale(1);
+   }
+
+  /* Ensure hidden class works */
+  #project-modal.hidden {
+      display: none;
+  }
+
+  /* Carousel nav fade-in (if desired) */
+   .carousel-nav {
+       transition: opacity 0.3s ease-in-out;
+   }
+
+  /* Custom scrollbar for modal body */
+   .modal-body::-webkit-scrollbar {
+      width: 8px;
+    }
+    .modal-body::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    .modal-body::-webkit-scrollbar-thumb {
+      background: #4A5568; /* gray-600 */
+      border-radius: 4px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    .modal-body::-webkit-scrollbar-thumb:hover {
+      background: #2D3748; /* gray-700 */
+    }
+</style>
