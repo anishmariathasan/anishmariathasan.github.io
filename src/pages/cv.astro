@@ -137,9 +137,9 @@ const cvData = {
 <BaseLayout title="Anish Mariathasan – CV">
   <div class="container mx-auto px-4 py-8 md:py-12">
     <!-- Top note -->
-    <p class="text-center italic text-gray-400 mb-6">References available upon request</p>
+    <p class="text-center italic text-black mb-6">References available upon request</p>
 
-    <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Curriculum Vitae</h1>
+    <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center text-black">Curriculum Vitae</h1>
 
     <!-- Download PDF Button -->
     <div class="text-center mb-10">
@@ -158,14 +158,16 @@ const cvData = {
 
     <!-- Education -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Education</h2>
+      <h2 class="text-2xl font-semibold border-b-2 border-[#D2B48C] pb-2 mb-4">Education</h2>
       {cvData.education.map(edu => (
         <div class="mb-4">
           <h3 class="text-xl font-bold">{edu.institution}</h3>
-          <p class="text-lg text-gray-300">{edu.degree}</p>
-          <p class="text-sm text-gray-400 mb-1">{edu.dates}</p>
-          <ul class="list-disc list-inside text-gray-300 ml-4">
-            {edu.details.map(detail => <li>{detail}</li>)}
+          <p class="text-lg text-black">{edu.degree}</p>
+          <p class="text-sm text-black mb-1">{edu.dates}</p>
+          <ul class="list-disc list-inside text-black ml-4">
+            {edu.details.map(detail => (
+              <li>{detail}</li>
+            ))}
           </ul>
         </div>
       ))}
@@ -173,13 +175,13 @@ const cvData = {
 
     <!-- Experience -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Experience</h2>
+      <h2 class="text-2xl font-semibold border-b-2 border-[#D2B48C] pb-2 mb-4">Experience</h2>
       {cvData.experience.map(exp => (
         <div class="mb-4">
           <h3 class="text-xl font-bold">{exp.company}</h3>
-          <p class="text-lg text-gray-300">{exp.title}</p>
-          <p class="text-sm text-gray-400 mb-1">{exp.dates}</p>
-          <ul class="list-disc list-inside text-gray-300 ml-4">
+          <p class="text-lg text-black">{exp.title}</p>
+          <p class="text-sm text-black mb-1">{exp.dates}</p>
+          <ul class="list-disc list-inside text-black ml-4">
             {exp.details.map(detail => <li>{detail}</li>)}
           </ul>
         </div>
@@ -188,13 +190,13 @@ const cvData = {
 
     <!-- Projects -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Projects & Research</h2>
+      <h2 class="text-2xl font-semibold border-b-2 border-[#D2B48C] pb-2 mb-4">Projects & Research</h2>
       {cvData.projects.map(proj => (
         <div class="mb-4">
           <h3 class="text-xl font-bold">{proj.title}</h3>
-          <p class="text-lg text-gray-300">{proj.role}</p>
-          <p class="text-sm text-gray-400 mb-1">{proj.date}</p>
-          <ul class="list-disc list-inside text-gray-300 ml-4">
+          <p class="text-lg text-black">{proj.role}</p>
+          <p class="text-sm text-black mb-1">{proj.date}</p>
+          <ul class="list-disc list-inside text-black ml-4">
             {proj.details.map(detail => <li>{detail}</li>)}
           </ul>
         </div>
@@ -203,16 +205,16 @@ const cvData = {
 
     <!-- Skills -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Skills & Languages</h2>
+      <h2 class="text-2xl font-semibold border-b-2 border-[#D2B48C] pb-2 mb-4">Skills & Languages</h2>
       {cvData.skills.map(skill => (
-        <p class="mb-1"><strong class="font-semibold text-gray-200">{skill.category}:</strong> {skill.items}</p>
+        <p class="mb-1"><strong class="font-semibold text-black">{skill.category}:</strong> {skill.items}</p>
       ))}
     </section>
 
     <!-- Certifications -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Certifications</h2>
-      <ul class="list-disc list-inside text-gray-300 ml-4">
+      <h2 class="text-2xl font-semibold border-b-2 border-[#D2B48C] pb-2 mb-4">Certifications</h2>
+      <ul class="list-disc list-inside text-black ml-4">
         {cvData.certifications.map(cert => (
           <li>
             {cert.name}, {cert.date}{cert.result ? ` — ${cert.result}` : ''}{cert.score ? ` — ${cert.score}` : ''}
@@ -223,8 +225,8 @@ const cvData = {
 
     <!-- Awards -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold border-b-2 border-teal-500 pb-2 mb-4">Awards</h2>
-      <ul class="list-disc list-inside text-gray-300 ml-4">
+      <h2 class="text-2xl font-semibold border-b-2 border-[#D2B48C] pb-2 mb-4">Awards</h2>
+      <ul class="list-disc list-inside text-black ml-4">
         {cvData.awards.map(award => <li>{award}</li>)}
       </ul>
     </section>

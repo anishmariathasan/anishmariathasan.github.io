@@ -59,7 +59,7 @@ const projects = [
   },
 ];
 ---
-<section id="projects" class="py-16 md:py-24 bg-gray-800/30">
+<section id="projects" class="py-16 md:py-24 bg-[#f5f0e9]">
   <div class="container mx-auto px-4">
     <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 animate-on-scroll">
       Projects & Experience Highlights
@@ -67,10 +67,10 @@ const projects = [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
       <!-- OedaSock card, inserted at top -->
-      <div class="project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-0">
+      <div class="project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-0 cursor-pointer" onclick="this.classList.toggle('expanded')">
         <div class="flex justify-between items-start">
           <div>
-            <h3 class="text-xl font-bold mb-1 text-teal-400">
+            <h3 class="text-xl font-bold mb-1 text-teal-500">
               OedaSock (Imperial HCARD Competition Winner)
             </h3>
             <p class="text-sm text-gray-400">
@@ -89,7 +89,7 @@ const projects = [
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-teal-400 hover:text-teal-300 transition-colors duration-150"
+              class="h-6 w-6 text-teal-500 hover:text-teal-600 transition-colors duration-150"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -100,12 +100,15 @@ const projects = [
             </svg>
           </a>
         </div>
-        <p class="text-gray-300 mt-4 mb-4 flex-grow">
+        <p class="text-gray-300 mt-4 mb-4 flex-grow short-description">
+          OedaSock is an innovative smart compression device designed to actively manage leg swelling (oedema).
+        </p>
+        <p class="text-gray-300 mt-4 mb-4 flex-grow full-description hidden">
           OedaSock is an innovative smart compression device designed to actively manage leg swelling (oedema). It placed first in the HCARD Imperial Module competition.
 
           It uses integrated stretch sensors to detect changes in foot size and automatically applies targeted pneumatic compression via an embedded sock/cuff, offering a more comfortable and responsive alternative to traditional garments. All of this can be manually adjusted through the accompanying app, which has user login functionality to track their oedema progress and other biometric data for better clinical treatment.
         </p>
-        <ul class="list-disc list-inside text-gray-300 space-y-2">
+        <ul class="list-disc list-inside text-gray-300 space-y-2 full-description hidden">
           <li>
             Developed the companion Android app (Kotlin) providing users with BLE connectivity, real-time pressure monitoring, and data logging capabilities (using Google Firestore).
           </li>
@@ -118,9 +121,9 @@ const projects = [
       {/* Remaining projects */}
       {projects.map((project, index) => (
         <div
-          class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 100}`}
+          class={`project-card bg-gray-800 p-6 rounded-lg shadow-xl flex flex-col animate-on-scroll delay-${index * 50}`}
         >
-          <h3 class="text-xl font-bold mb-2 text-teal-400">
+          <h3 class="text-xl font-bold mb-2 text-teal-500">
             {project.title}
           </h3>
           <p class="text-sm text-gray-400 mb-1">
@@ -188,6 +191,18 @@ const projects = [
   .project-card.expanded .description::-webkit-scrollbar-thumb {
     background: rgba(100,100,100,0.5);
     border-radius: 3px;
+  }
+  .project-card .short-description {
+    display: block;
+  }
+  .project-card .full-description {
+    display: none;
+  }
+  .project-card.expanded .short-description {
+    display: none;
+  }
+  .project-card.expanded .full-description {
+    display: block;
   }
 </style>
 

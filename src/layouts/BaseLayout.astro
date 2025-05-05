@@ -28,10 +28,14 @@ const { title, description = "anish on the internet" } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
     {/* You might place global scripts or head elements here if needed */}
 </head>
-<body class="bg-gray-900 text-gray-100 font-['Syne Mono'] relative">
+<body class="bg-[#f5f0e9] text-black font-['Sono'] relative">
 
     {/* Include Sidebar */}
     <Sidebar />
@@ -50,51 +54,19 @@ const { title, description = "anish on the internet" } = Astro.props;
         </main>
 
         {/* Footer remains part of the main content flow */}
-        <footer class="text-center p-4 mt-12 text-sm text-gray-500">
+        <footer class="text-center p-4 mt-12 text-sm text-gray-700">
             © {new Date().getFullYear()} Anish Mariathasan
         </footer>
 
     </div> {/* End Main Content Area */}
 
-    {/* Custom Cursor Element (Optional) */}
-    <div id="custom-cursor" class="custom-cursor hidden md:block"></div> {/* Hide cursor on mobile? */}
-
-    {/* Add scripts needed on every page */}
-    {/* Ensure your custom cursor script is loaded */}
-    <script src="/scripts/cursor.js" is:inline></script>
-
 </body>
 </html>
 
-<style is:global>
-  /* Basic global styles */
-  body, a, button {
-    cursor: none !important;
-  }
+<style>
   body {
     margin: 0;
     font-family: 'Syne Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
                  Consolas, 'Liberation Mono', 'Courier New', monospace;
   }
-
-  /* Style the custom cursor element */
-  .custom-cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    pointer-events: none;
-    width: 20px;
-    height: 20px;
-    background-color: rgba(0, 255, 255, 0.5);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-    z-index: 9999;
-    mix-blend-mode: difference;
-  }
-
-  /* Prevent layout shift when scrollbar appears/disappears */
-   body.overflow-hidden {
-       padding-right: 0px;
-   }
 </style>
