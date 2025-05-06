@@ -81,7 +81,22 @@
 
 <script>
   // Store references to modal elements globally within the script's scope
-  let modalElement, modalContentElement, modalTitleElement, modalRoleElement, modalDateElement, modalSeparatorElement, modalDescriptionElement, modalTagsElement, modalLinksElement, modalCarouselElement, carouselSlidesElement, carouselDotsElement, prevSlideButton, nextSlideButton, closeButton, modalBackdrop;
+  let modalElement: HTMLElement | null;
+  let modalContentElement: HTMLElement | null;
+  let modalTitleElement: HTMLElement | null;
+  let modalRoleElement: HTMLElement | null;
+  let modalDateElement: HTMLElement | null;
+  let modalSeparatorElement: HTMLElement | null;
+  let modalDescriptionElement: HTMLElement | null;
+  let modalTagsElement: HTMLElement | null;
+  let modalLinksElement: HTMLElement | null;
+  let modalCarouselElement: HTMLElement | null;
+  let carouselSlidesElement: HTMLElement | null;
+  let carouselDotsElement: HTMLElement | null;
+  let prevSlideButton: HTMLElement | null;
+  let nextSlideButton: HTMLElement | null;
+  let closeButton: HTMLElement | null;
+  let modalBackdrop: HTMLElement | null;
 
   // Function to initialize element references
   function initializeModalElements() {
@@ -110,8 +125,19 @@
       return true; // Indicate success
   }
 
+  interface Project {
+    title: string;
+    role?: string;
+    date?: string;
+    description: string;
+    fullDescription?: string[];
+    tags: string[];
+    githubLink?: string;
+    demoLink?: string;
+    images?: Array<{ src: string; alt: string }>;
+  }
 
-  let currentProject: any = null;
+  let currentProject: Project | null = null;
   let currentSlide = 0;
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -144,67 +170,44 @@
   });
 
   // Open modal function
-  function openProjectModal(project) {
-    // Defensive check: Ensure project data is provided
+  function openProjectModal(project: Project) {
     if (!project) {
-        console.error("openProjectModal called with null or undefined project data.");
-        return;
+      console.error("openProjectModal called with null or undefined project data.");
+      return;
     }
-    // Re-initialize elements in case they were somehow lost (though unlikely with DOMContentLoaded)
     if (!initializeModalElements()) return;
 
-    console.log("Opening modal for project:", project); // Log project data for debugging
     currentProject = project;
 
-    // --- Populate Modal Content ---
-    // Use optional chaining (?.) and nullish coalescing (??) for safety
-
-    if (modalTitleElement) modalTitleElement.textContent = project.title ?? 'Project Title'; // Provide default
-
+    if (modalTitleElement) modalTitleElement.textContent = project.title;
     if (modalRoleElement) modalRoleElement.textContent = project.role ?? '';
     if (modalDateElement) modalDateElement.textContent = project.date ?? '';
+    if (modalSeparatorElement) modalSeparatorElement.classList.toggle('hidden', !(project.role && project.date));
 
-    // Show separator only if both role and date are present
-    if(modalSeparatorElement) modalSeparatorElement.classList.toggle('hidden', !(project.role && project.date));
-
-
-    // Populate description
     if (modalDescriptionElement) {
-        modalDescriptionElement.innerHTML = ''; // Clear previous
-        const descriptionContent = project.fullDescription ?? project.description ?? ''; // Prefer fullDescription
-        if (Array.isArray(descriptionContent)) {
-            descriptionContent.forEach(para => {
-                const p = document.createElement('p');
-                // Allow HTML within description paragraphs if needed safely
-                p.innerHTML = para; // Be cautious if 'para' can contain untrusted HTML
-                modalDescriptionElement.appendChild(p);
-            });
-        } else if (typeof descriptionContent === 'string') {
-            // Allow HTML in the description string
-            modalDescriptionElement.innerHTML = descriptionContent;
-        }
-    } else {
-        console.error("Modal description element not found.");
+      modalDescriptionElement.innerHTML = '';
+      const descriptionContent = project.fullDescription ?? project.description;
+      if (Array.isArray(descriptionContent)) {
+        descriptionContent.forEach(para => {
+          const p = document.createElement('p');
+          p.innerHTML = para;
+          modalDescriptionElement?.appendChild(p);
+        });
+      } else if (typeof descriptionContent === 'string') {
+        modalDescriptionElement.innerHTML = descriptionContent;
+      }
     }
 
-    // Populate tags
     if (modalTagsElement) {
-        modalTagsElement.innerHTML = ''; // Clear previous
-        if (Array.isArray(project.tags) && project.tags.length > 0) {
-            project.tags.forEach(tag => {
-                if (typeof tag === 'string') { // Check if tag is a string
-                    const span = document.createElement('span');
-                    span.className = 'bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded';
-                    span.textContent = tag;
-                    modalTagsElement.appendChild(span);
-                }
-            });
-        }
-    } else {
-         console.error("Modal tags element not found.");
+      modalTagsElement.innerHTML = '';
+      project.tags.forEach((tag: string) => {
+        const span = document.createElement('span');
+        span.className = 'bg-gray-700 text-gray-300 text-xs font-semibold px-2.5 py-0.5 rounded';
+        span.textContent = tag;
+        modalTagsElement?.appendChild(span);
+      });
     }
 
-    // Setup image carousel
     setupCarousel(project);
 
     // Populate links
@@ -219,7 +222,6 @@
     } else {
          console.error("Modal links element not found.");
     }
-
 
     // --- Show Modal ---
     if (modalElement && modalContentElement) {
@@ -239,86 +241,77 @@
     }
   }
 
-  function setupCarousel(project) {
-    // Ensure all carousel-related elements are found
+  function setupCarousel(project: Project) {
     if (!modalCarouselElement || !carouselSlidesElement || !carouselDotsElement) {
-        console.error("Carousel elements missing.");
-        if(modalCarouselElement) modalCarouselElement.classList.add('hidden'); // Hide if incomplete
-        return;
+      console.error("Carousel elements missing.");
+      if(modalCarouselElement) modalCarouselElement.classList.add('hidden');
+      return;
     }
-    // Ensure nav buttons are found before proceeding
-     if (!prevSlideButton || !nextSlideButton) {
-        console.error("Carousel navigation buttons missing.");
-         // Decide if carousel should still show without buttons
+    if (!prevSlideButton || !nextSlideButton) {
+      console.error("Carousel navigation buttons missing.");
+      return;
     }
 
-    // Clear previous content
     carouselSlidesElement.innerHTML = '';
     carouselDotsElement.innerHTML = '';
 
-    // Check if project data and images array are valid
-    if (project && Array.isArray(project.images) && project.images.length > 0) {
-        modalCarouselElement.classList.remove('hidden');
-
-        project.images.forEach((imgData, index) => {
-            // Validate image data object
-            if (typeof imgData !== 'object' || imgData === null || typeof imgData.src !== 'string') {
-                console.error(`Invalid image data at index ${index}:`, imgData);
-                return; // Skip this invalid image entry
-            }
-
-            // Create slide
-            const slide = document.createElement('div');
-            slide.className = 'w-full flex-shrink-0 h-full bg-black/20 flex items-center justify-center';
-
-            const imgEl = document.createElement('img');
-            imgEl.src = imgData.src;
-            // Provide default alt text if missing
-            imgEl.alt = imgData.alt || `${project.title || 'Project'} image ${index + 1}`;
-            imgEl.className = 'w-auto h-full object-contain max-w-full'; // contain fits image fully
-            imgEl.loading = 'lazy';
-
-            // Error handling for image loading
-            imgEl.onerror = () => {
-                console.error(`Failed to load image: ${imgData.src}`);
-                imgEl.alt = `Error loading image: ${imgEl.alt}`; // Update alt text on error
-                // Optionally display a placeholder or hide the slide
-                slide.innerHTML = `<div class="text-gray-400 text-sm p-4">Image not available</div>`;
-            };
-
-            slide.appendChild(imgEl);
-            carouselSlidesElement.appendChild(slide);
-
-            // Create dot (only if multiple images)
-            if (project.images.length > 1) {
-                const dot = document.createElement('button');
-                dot.className = `w-2 h-2 rounded-full transition-colors duration-200 ${index === 0 ? 'bg-teal-400' : 'bg-gray-400 hover:bg-gray-300'}`;
-                dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-                dot.addEventListener('click', () => { goToSlide(index); });
-                carouselDotsElement.appendChild(dot);
-            }
-        });
-
-        currentSlide = 0; // Reset slide index
-        const numSlides = carouselSlidesElement.children.length; // Count actual slides added
-
-        if (numSlides > 0) {
-            updateCarousel(numSlides); // Initial update based on actual slides
-
-            // Show/hide nav based on actual slide count
-            const showNav = numSlides > 1;
-            const navElements = modalElement?.querySelectorAll('.carousel-nav') ?? []; // Includes arrows and dots container
-             navElements.forEach(nav => {
-                nav.classList.toggle('opacity-0', !showNav);
-                nav.classList.toggle('pointer-events-none', !showNav);
-            });
-        } else {
-             // Hide carousel if no valid slides were added
-             modalCarouselElement.classList.add('hidden');
-             console.warn("Carousel hidden because no valid images were processed.");
+    if (project.images && project.images.length > 0) {
+      modalCarouselElement.classList.remove('hidden');
+      project.images.forEach((imgData, index: number) => {
+        if (typeof imgData !== 'object' || imgData === null || typeof imgData.src !== 'string') {
+          console.error(`Invalid image data at index ${index}:`, imgData);
+          return;
         }
+        // Create slide
+        const slide = document.createElement('div');
+        slide.className = 'w-full flex-shrink-0 h-full bg-black/20 flex items-center justify-center';
 
+        const imgEl = document.createElement('img');
+        imgEl.src = imgData.src;
+        // Provide default alt text if missing
+        imgEl.alt = imgData.alt || `${project.title || 'Project'} image ${index + 1}`;
+        imgEl.className = 'w-auto h-full object-contain max-w-full'; // contain fits image fully
+        imgEl.loading = 'lazy';
 
+        // Error handling for image loading
+        imgEl.onerror = () => {
+            console.error(`Failed to load image: ${imgData.src}`);
+            imgEl.alt = `Error loading image: ${imgEl.alt}`; // Update alt text on error
+            // Optionally display a placeholder or hide the slide
+            slide.innerHTML = `<div class="text-gray-400 text-sm p-4">Image not available</div>`;
+        };
+
+        slide.appendChild(imgEl);
+        carouselSlidesElement.appendChild(slide);
+
+        // Create dot (only if multiple images)
+        if (project.images.length > 1) {
+            const dot = document.createElement('button');
+            dot.className = `w-2 h-2 rounded-full transition-colors duration-200 ${index === 0 ? 'bg-teal-400' : 'bg-gray-400 hover:bg-gray-300'}`;
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.addEventListener('click', () => { goToSlide(index); });
+            carouselDotsElement.appendChild(dot);
+        }
+      });
+
+      currentSlide = 0; // Reset slide index
+      const numSlides = carouselSlidesElement.children.length; // Count actual slides added
+
+      if (numSlides > 0) {
+          updateCarousel(numSlides); // Initial update based on actual slides
+
+          // Show/hide nav based on actual slide count
+          const showNav = numSlides > 1;
+          const navElements = modalElement?.querySelectorAll('.carousel-nav') ?? []; // Includes arrows and dots container
+           navElements.forEach(nav => {
+              nav.classList.toggle('opacity-0', !showNav);
+              nav.classList.toggle('pointer-events-none', !showNav);
+          });
+      } else {
+           // Hide carousel if no valid slides were added
+           modalCarouselElement.classList.add('hidden');
+           console.warn("Carousel hidden because no valid images were processed.");
+      }
     } else {
         // Hide carousel if no images array or it's empty
         modalCarouselElement.classList.add('hidden');
@@ -328,8 +321,7 @@
             nav.classList.add('opacity-0', 'pointer-events-none');
         });
     }
-}
-
+  }
 
   function closeModal() {
     if (!modalElement || !modalContentElement) return; // Check if elements exist
@@ -342,43 +334,36 @@
     currentProject = null; // Clear current project
   }
 
-  function navigateCarousel(direction) {
-    // Ensure project and images exist and there's more than one slide
-    if (!currentProject?.images || carouselSlidesElement.children.length <= 1) return;
-
+  function navigateCarousel(direction: number) {
+    if (!currentProject?.images || !carouselSlidesElement || carouselSlidesElement.children.length <= 1) return;
     const numSlides = carouselSlidesElement.children.length;
-    currentSlide = (currentSlide + direction + numSlides) % numSlides; // Loop around
+    currentSlide = (currentSlide + direction + numSlides) % numSlides;
     updateCarousel(numSlides);
   }
 
-  function goToSlide(index) {
-    if (!currentProject?.images || carouselSlidesElement.children.length <= 1) return;
+  function goToSlide(index: number) {
+    if (!currentProject?.images || !carouselSlidesElement || carouselSlidesElement.children.length <= 1) return;
     const numSlides = carouselSlidesElement.children.length;
-    if (index < 0 || index >= numSlides) return; // Index out of bounds
-
+    if (index < 0 || index >= numSlides) return;
     currentSlide = index;
     updateCarousel(numSlides);
   }
 
-  function updateCarousel(numSlides) {
-    // Only update if slides container exists and there are slides
-    if (carouselSlidesElement && numSlides > 0) {
-        carouselSlidesElement.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-
-    // Only update dots if dots container exists
+  function updateCarousel(numSlides: number) {
+    if (!carouselSlidesElement || numSlides <= 0) return;
+    carouselSlidesElement.style.transform = `translateX(-${currentSlide * 100}%)`;
     if (carouselDotsElement) {
-        const dots = carouselDotsElement.querySelectorAll('button');
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('bg-teal-400', index === currentSlide);
-            dot.classList.toggle('bg-gray-400', index !== currentSlide);
-            dot.classList.toggle('hover:bg-gray-300', index !== currentSlide);
-        });
+      const dots = carouselDotsElement.querySelectorAll('button');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('bg-teal-400', index === currentSlide);
+        dot.classList.toggle('bg-gray-400', index !== currentSlide);
+        dot.classList.toggle('hover:bg-gray-300', index !== currentSlide);
+      });
     }
   }
 
   // Helper to create links (SVG content abbreviated for clarity)
-  function createLink(href, text, svgIcon) {
+  function createLink(href: string, text: string, svgIcon: string) {
       const link = document.createElement('a');
       link.href = href;
       link.target = '_blank';
@@ -399,7 +384,7 @@
 
   declare global {
     interface Window {
-      openProjectModal: (project: any) => void;
+      openProjectModal: (project: Project) => void;
     }
   }
   window.openProjectModal = openProjectModal;
