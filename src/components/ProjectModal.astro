@@ -83,48 +83,48 @@
 
 <script>
   // Store references to modal elements globally within the script's scope
-  let modalElement: HTMLElement | null;
-  let modalContentElement: HTMLElement | null;
-  let modalTitleElement: HTMLElement | null;
-  let modalRoleElement: HTMLElement | null;
-  let modalDateElement: HTMLElement | null;
-  let modalSeparatorElement: HTMLElement | null;
-  let modalDescriptionElement: HTMLElement | null;
-  let modalTagsElement: HTMLElement | null;
-  let modalLinksElement: HTMLElement | null;
-  let modalCarouselElement: HTMLElement | null;
-  let carouselSlidesElement: HTMLElement | null;
-  let carouselDotsElement: HTMLElement | null;
-  let prevSlideButton: HTMLElement | null;
-  let nextSlideButton: HTMLElement | null;
-  let closeButton: HTMLElement | null;
-  let modalBackdrop: HTMLElement | null;
+  let modalElement: HTMLElement | null = null;
+  let modalContentElement: HTMLElement | null = null;
+  let modalTitleElement: HTMLElement | null = null;
+  let modalRoleElement: HTMLElement | null = null;
+  let modalDateElement: HTMLElement | null = null;
+  let modalSeparatorElement: HTMLElement | null = null;
+  let modalDescriptionElement: HTMLElement | null = null;
+  let modalTagsElement: HTMLElement | null = null;
+  let modalLinksElement: HTMLElement | null = null;
+  let modalCarouselElement: HTMLElement | null = null;
+  let carouselSlidesElement: HTMLElement | null = null;
+  let carouselDotsElement: HTMLElement | null = null;
+  let prevSlideButton: HTMLElement | null = null;
+  let nextSlideButton: HTMLElement | null = null;
+  let closeButton: HTMLElement | null = null;
+  let modalBackdrop: HTMLElement | null = null;
 
   // Function to initialize element references
   function initializeModalElements() {
-      modalElement = document.getElementById('project-modal');
-      modalContentElement = modalElement?.querySelector('.modal-content'); // Query within modal
-      modalTitleElement = document.getElementById('modal-title'); // Title is used for aria-labelledby
-      modalRoleElement = modalElement?.querySelector('#modal-role');
-      modalDateElement = modalElement?.querySelector('#modal-date');
-      modalSeparatorElement = modalElement?.querySelector('#modal-separator');
-      modalDescriptionElement = modalElement?.querySelector('#modal-description');
-      modalTagsElement = modalElement?.querySelector('#modal-tags');
-      modalLinksElement = modalElement?.querySelector('#modal-links');
-      modalCarouselElement = modalElement?.querySelector('#modal-carousel');
-      carouselSlidesElement = modalElement?.querySelector('#carousel-slides');
-      carouselDotsElement = modalElement?.querySelector('#carousel-dots');
-      prevSlideButton = modalElement?.querySelector('#prev-slide');
-      nextSlideButton = modalElement?.querySelector('#next-slide');
-      closeButton = modalElement?.querySelector('#close-modal');
-      modalBackdrop = modalElement?.querySelector('#modal-backdrop');
+    modalElement = document.getElementById('project-modal');
+    modalContentElement = modalElement?.querySelector('.modal-content') as HTMLElement | null;
+    modalTitleElement = document.getElementById('modal-title');
+    modalRoleElement = document.getElementById('modal-role');
+    modalDateElement = document.getElementById('modal-date');
+    modalSeparatorElement = document.getElementById('modal-separator');
+    modalDescriptionElement = document.getElementById('modal-description');
+    modalTagsElement = document.getElementById('modal-tags');
+    modalLinksElement = document.getElementById('modal-links');
+    modalCarouselElement = document.getElementById('modal-carousel');
+    carouselSlidesElement = document.getElementById('carousel-slides');
+    carouselDotsElement = document.getElementById('carousel-dots');
+    prevSlideButton = document.getElementById('prev-slide');
+    nextSlideButton = document.getElementById('next-slide');
+    closeButton = document.getElementById('close-modal');
+    modalBackdrop = document.getElementById('modal-backdrop');
 
-      // Check if essential elements are found
-      if (!modalElement || !modalContentElement || !closeButton || !modalBackdrop || !modalTitleElement) {
-           console.error("Essential modal elements could not be found! Check IDs and structure.");
-           return false; // Indicate failure
-      }
-      return true; // Indicate success
+    // Check if essential elements are found
+    if (!modalElement || !modalContentElement || !closeButton || !modalBackdrop || !modalTitleElement) {
+      console.error("Essential modal elements could not be found! Check IDs and structure.");
+      return false;
+    }
+    return true;
   }
 
   interface Project {
@@ -136,7 +136,7 @@
     tags: string[];
     githubLink?: string;
     demoLink?: string;
-    images?: Array<{ src: string; alt: string }>;
+    images?: Array<{ src: string; alt: string; type?: string }>;
   }
 
   let currentProject: Project | null = null;
@@ -198,6 +198,22 @@
       } else if (typeof descriptionContent === 'string') {
         modalDescriptionElement.innerHTML = descriptionContent;
       }
+
+      // Add additional description for Mobile Game Development
+      if (project.title === "Mobile Game Development ('Squashed Orange')") {
+        const additionalP = document.createElement('p');
+        additionalP.className = 'text-gray-300 mt-4';
+        additionalP.textContent = 'Development stopped sadly cos I got older and hit puberty but made a bit of money.';
+        modalDescriptionElement.appendChild(additionalP);
+      }
+
+      // Add additional description for PPE Redistribution App
+      if (project.title === "PPE Redistribution App") {
+        const additionalP = document.createElement('p');
+        additionalP.className = 'text-gray-300 mt-4';
+        additionalP.textContent = 'Attempted to try partner with the NHS to help them distribute supplies, but sadly NHSX said they were not accepting any new contracts. Kinda annoying and was a bit disappoitning when you realise they were giving out contracts to their cousins and their mates, but anyway we move.';
+        modalDescriptionElement.appendChild(additionalP);
+      }
     }
 
     if (modalTagsElement) {
@@ -226,7 +242,7 @@
             const downloadButton = document.createElement('a');
             downloadButton.href = '/files/OedaSock_Report.pdf'; // Updated path to match the actual file location
             downloadButton.download = 'OedaSock-Project-Report.pdf';
-            downloadButton.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium';
+            downloadButton.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
             downloadButton.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -234,6 +250,70 @@
                 Download Report
             `;
             modalLinksElement.appendChild(downloadButton);
+        }
+        // Add legacy website link for Squashed Orange
+        if (project.title === "Mobile Game Development ('Squashed Orange')") {
+            const legacyLink = document.createElement('a');
+            legacyLink.href = 'https://squashedorangedeveloper.wordpress.com/';
+            legacyLink.target = '_blank';
+            legacyLink.rel = 'noopener noreferrer';
+            legacyLink.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
+            legacyLink.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                Legacy Website (No Longer Active)
+            `;
+            modalLinksElement.appendChild(legacyLink);
+        }
+        // Add legacy link for PPE Redistribution App
+        if (project.title === "PPE Redistribution App") {
+            const legacyLink = document.createElement('a');
+            legacyLink.href = 'https://squashedorangedeveloper.wordpress.com/coronavirus-resource-supplies-covid-19/';
+            legacyLink.target = '_blank';
+            legacyLink.rel = 'noopener noreferrer';
+            legacyLink.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
+            legacyLink.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                Legacy Development Website (Download Available)
+            `;
+            modalLinksElement.appendChild(legacyLink);
+        }
+        // Add legacy link for Personal Website
+        if (project.title === "Personal Website (Previous Version)") {
+            const legacyLink = document.createElement('a');
+            legacyLink.href = 'https://github.com/anishmariathasan/anishmariathasan.com';
+            legacyLink.target = '_blank';
+            legacyLink.rel = 'noopener noreferrer';
+            legacyLink.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
+            legacyLink.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .5C5.649.5.5 5.649.5 12c0 5.094 3.292 9.41 7.865 10.942.575.106.785-.25.785-.557 0-.274-.01-1.189-.015-2.156-3.2.696-3.875-1.542-3.875-1.542-.523-1.333-1.276-1.688-1.276-1.688-1.043-.713.08-.699.08-.699 1.152.082 1.758 1.184 1.758 1.184 1.026 1.757 2.693 1.25 3.348.957.104-.744.402-1.25.731-1.537-2.555-.29-5.242-1.277-5.242-5.687 0-1.257.45-2.284 1.184-3.089-.119-.29-.513-1.462.113-3.048 0 0 .967-.31 3.168 1.18.918-.255 1.902-.382 2.88-.387.979.005 1.962.132 2.882.387 2.2-1.49 3.166-1.18 3.166-1.18.628 1.586.233 2.758.115 3.048.737.805 1.184 1.832 1.184 3.089 0 4.42-2.692 5.392-5.254 5.678.413.356.782 1.062.782 2.14 0 1.545-.014 2.79-.014 3.168 0 .31.207.67.792.557C20.71 21.408 24 17.094 24 12c0-6.351-5.149-11.5-12-11.5z"/>
+                </svg>
+                Legacy GitHub Repository
+            `;
+            modalLinksElement.appendChild(legacyLink);
+        }
+        // Add legacy link for Therakey
+        if (project.title === "Therakey") {
+            const legacyLink = document.createElement('a');
+            legacyLink.href = 'https://github.com/anishmariathasan/group6';
+            legacyLink.target = '_blank';
+            legacyLink.rel = 'noopener noreferrer';
+            legacyLink.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
+            legacyLink.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .5C5.649.5.5 5.649.5 12c0 5.094 3.292 9.41 7.865 10.942.575.106.785-.25.785-.557 0-.274-.01-1.189-.015-2.156-3.2.696-3.875-1.542-3.875-1.542-.523-1.333-1.276-1.688-1.276-1.688-1.043-.713.08-.699.08-.699 1.152.082 1.758 1.184 1.758 1.184 1.026 1.757 2.693 1.25 3.348.957.104-.744.402-1.25.731-1.537-2.555-.29-5.242-1.277-5.242-5.687 0-1.257.45-2.284 1.184-3.089-.119-.29-.513-1.462.113-3.048 0 0 .967-.31 3.168 1.18.918-.255 1.902-.382 2.88-.387.979.005 1.962.132 2.882.387 2.2-1.49 3.166-1.18 3.166-1.18.628 1.586.233 2.758.115 3.048.737.805 1.184 1.832 1.184 3.089 0 4.42-2.692 5.392-5.254 5.678.413.356.782 1.062.782 2.14 0 1.545-.014 2.79-.014 3.168 0 .31.207.67.792.557C20.71 21.408 24 17.094 24 12c0-6.351-5.149-11.5-12-11.5z"/>
+                </svg>
+                Development Repository (Incomplete)
+            `;
+            const disclaimer = document.createElement('p');
+            disclaimer.className = 'text-xs text-gray-400 mt-1 ml-6';
+            disclaimer.textContent = 'Note: This repository does not reflect the finished work';
+            modalLinksElement.appendChild(legacyLink);
+            modalLinksElement.appendChild(disclaimer);
         }
     } else {
          console.error("Modal links element not found.");
@@ -258,85 +338,105 @@
   }
 
   function setupCarousel(project: Project) {
-    if (!modalCarouselElement || !carouselSlidesElement || !carouselDotsElement) {
-      console.error("Carousel elements missing.");
-      if(modalCarouselElement) modalCarouselElement.classList.add('hidden');
-      return;
-    }
-    if (!prevSlideButton || !nextSlideButton) {
-      console.error("Carousel navigation buttons missing.");
+    if (!carouselSlidesElement || !modalCarouselElement || !carouselDotsElement || !prevSlideButton || !nextSlideButton) {
+      console.error("Carousel elements missing");
       return;
     }
 
+    // Clear previous content
     carouselSlidesElement.innerHTML = '';
     carouselDotsElement.innerHTML = '';
 
-    if (project.images && project.images.length > 0) {
-      modalCarouselElement.classList.remove('hidden');
-      project.images.forEach((imgData, index: number) => {
-        if (typeof imgData !== 'object' || imgData === null || typeof imgData.src !== 'string') {
-          console.error(`Invalid image data at index ${index}:`, imgData);
-          return;
-        }
-        // Create slide
-        const slide = document.createElement('div');
-        slide.className = 'w-full flex-shrink-0 h-full bg-black/20 flex items-center justify-center';
-
-        const imgEl = document.createElement('img');
-        imgEl.src = imgData.src;
-        // Provide default alt text if missing
-        imgEl.alt = imgData.alt || `${project.title || 'Project'} image ${index + 1}`;
-        imgEl.className = 'w-auto h-full object-contain max-w-full'; // contain fits image fully
-        imgEl.loading = 'lazy';
-
-        // Error handling for image loading
-        imgEl.onerror = () => {
-            console.error(`Failed to load image: ${imgData.src}`);
-            imgEl.alt = `Error loading image: ${imgEl.alt}`; // Update alt text on error
-            // Optionally display a placeholder or hide the slide
-            slide.innerHTML = `<div class="text-gray-400 text-sm p-4">Image not available</div>`;
-        };
-
-        slide.appendChild(imgEl);
-        carouselSlidesElement.appendChild(slide);
-
-        // Create dot (only if multiple images)
-        if (project.images.length > 1) {
-            const dot = document.createElement('button');
-            dot.className = `w-2 h-2 rounded-full transition-colors duration-200 ${index === 0 ? 'bg-teal-400' : 'bg-gray-400 hover:bg-gray-300'}`;
-            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-            dot.addEventListener('click', () => { goToSlide(index); });
-            carouselDotsElement.appendChild(dot);
-        }
-      });
-
-      currentSlide = 0; // Reset slide index
-      const numSlides = carouselSlidesElement.children.length; // Count actual slides added
-
-      if (numSlides > 0) {
-          updateCarousel(numSlides); // Initial update based on actual slides
-
-          // Show/hide nav based on actual slide count
-          const showNav = numSlides > 1;
-          const navElements = modalElement?.querySelectorAll('.carousel-nav') ?? []; // Includes arrows and dots container
-           navElements.forEach(nav => {
-              nav.classList.toggle('opacity-0', !showNav);
-              nav.classList.toggle('pointer-events-none', !showNav);
-          });
-      } else {
-           // Hide carousel if no valid slides were added
-           modalCarouselElement.classList.add('hidden');
-           console.warn("Carousel hidden because no valid images were processed.");
-      }
-    } else {
-        // Hide carousel if no images array or it's empty
-        modalCarouselElement.classList.add('hidden');
-        // Ensure nav is hidden too
-        const navElements = modalElement?.querySelectorAll('.carousel-nav') ?? [];
-         navElements.forEach(nav => {
-            nav.classList.add('opacity-0', 'pointer-events-none');
-        });
+    if (!project.images || project.images.length === 0) {
+      modalCarouselElement.classList.add('hidden');
+      return;
     }
+
+    modalCarouselElement.classList.remove('hidden');
+
+    // Create slides
+    project.images.forEach((image, index) => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide flex-shrink-0 w-full h-full';
+      
+      if (image.type === 'video') {
+        // Create video element
+        const video = document.createElement('video');
+        video.src = image.src;
+        video.className = 'w-full h-full object-contain';
+        video.controls = true;
+        video.autoplay = false;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        slide.appendChild(video);
+
+        // Add caption
+        const caption = document.createElement('p');
+        caption.className = 'text-sm text-gray-400 mt-2 text-center';
+        caption.textContent = 'This is a display of all the app\'s features for proof';
+        slide.appendChild(caption);
+      } else {
+        // Create image element
+        const img = document.createElement('img');
+        img.src = image.src;
+        img.alt = image.alt;
+        img.className = 'w-full h-full object-contain';
+        slide.appendChild(img);
+      }
+      
+      if (carouselSlidesElement) {
+        carouselSlidesElement.appendChild(slide);
+      }
+
+      // Create dot
+      const dot = document.createElement('button');
+      dot.className = 'w-2 h-2 rounded-full bg-gray-500 hover:bg-gray-400 transition-colors duration-200';
+      dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+      dot.addEventListener('click', () => goToSlide(index));
+      if (carouselDotsElement) {
+        carouselDotsElement.appendChild(dot);
+      }
+    });
+
+    // Show navigation if multiple slides
+    const showNav = project.images.length > 1;
+    prevSlideButton.classList.toggle('opacity-0', !showNav);
+    prevSlideButton.classList.toggle('pointer-events-none', !showNav);
+    nextSlideButton.classList.toggle('opacity-0', !showNav);
+    nextSlideButton.classList.toggle('pointer-events-none', !showNav);
+    carouselDotsElement.classList.toggle('opacity-0', !showNav);
+    carouselDotsElement.classList.toggle('pointer-events-none', !showNav);
+
+    // Reset to first slide
+    currentSlide = 0;
+    updateCarousel();
+  }
+
+  function updateCarousel() {
+    if (!carouselSlidesElement || !carouselDotsElement) return;
+
+    // Update slide position
+    carouselSlidesElement.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    // Update dots
+    const dots = carouselDotsElement.querySelectorAll('button');
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('bg-gray-400', index === currentSlide);
+      dot.classList.toggle('bg-gray-500', index !== currentSlide);
+    });
+  }
+
+  function navigateCarousel(direction: number) {
+    if (!currentProject?.images) return;
+    currentSlide = (currentSlide + direction + currentProject.images.length) % currentProject.images.length;
+    updateCarousel();
+  }
+
+  function goToSlide(index: number) {
+    if (!currentProject?.images) return;
+    currentSlide = index;
+    updateCarousel();
   }
 
   function closeModal() {
@@ -350,44 +450,16 @@
     currentProject = null; // Clear current project
   }
 
-  function navigateCarousel(direction: number) {
-    if (!currentProject?.images || !carouselSlidesElement || carouselSlidesElement.children.length <= 1) return;
-    const numSlides = carouselSlidesElement.children.length;
-    currentSlide = (currentSlide + direction + numSlides) % numSlides;
-    updateCarousel(numSlides);
-  }
-
-  function goToSlide(index: number) {
-    if (!currentProject?.images || !carouselSlidesElement || carouselSlidesElement.children.length <= 1) return;
-    const numSlides = carouselSlidesElement.children.length;
-    if (index < 0 || index >= numSlides) return;
-    currentSlide = index;
-    updateCarousel(numSlides);
-  }
-
-  function updateCarousel(numSlides: number) {
-    if (!carouselSlidesElement || numSlides <= 0) return;
-    carouselSlidesElement.style.transform = `translateX(-${currentSlide * 100}%)`;
-    if (carouselDotsElement) {
-      const dots = carouselDotsElement.querySelectorAll('button');
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('bg-teal-400', index === currentSlide);
-        dot.classList.toggle('bg-gray-400', index !== currentSlide);
-        dot.classList.toggle('hover:bg-gray-300', index !== currentSlide);
-      });
-    }
-  }
-
   // Helper to create links (SVG content abbreviated for clarity)
   function createLink(href: string, text: string, svgIcon: string) {
       const link = document.createElement('a');
       link.href = href;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
-      link.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium';
+      link.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
       // IMPORTANT: Replace placeholder SVGs with your actual SVG code
       if (text === 'GitHub') {
-           link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.649.5.5 5.649.5 12c0 5.094 3.292 9.41 7.865 10.942...Z"/></svg> ${text}`;
+           link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.649.5.5 5.649.5 12c0 5.094 3.292 9.41 7.865 10.942.575.106.785-.25.785-.557 0-.274-.01-1.189-.015-2.156-3.2.696-3.875-1.542-3.875-1.542-.523-1.333-1.276-1.688-1.276-1.688-1.043-.713.08-.699.08-.699 1.152.082 1.758 1.184 1.758 1.184 1.026 1.757 2.693 1.25 3.348.957.104-.744.402-1.25.731-1.537-2.555-.29-5.242-1.277-5.242-5.687 0-1.257.45-2.284 1.184-3.089-.119-.29-.513-1.462.113-3.048 0 0 .967-.31 3.168 1.18.918-.255 1.902-.382 2.88-.387.979.005 1.962.132 2.882.387 2.2-1.49 3.166-1.18 3.166-1.18.628 1.586.233 2.758.115 3.048.737.805 1.184 1.832 1.184 3.089 0 4.42-2.692 5.392-5.254 5.678.413.356.782 1.062.782 2.14 0 1.545-.014 2.79-.014 3.168 0 .31.207.67.792.557C20.71 21.408 24 17.094 24 12c0-6.351-5.149-11.5-12-11.5z"/></svg> ${text}`;
       } else if (text === 'Live Demo') {
            link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg> ${text}`;
       } else {
@@ -451,4 +523,11 @@
     .modal-body::-webkit-scrollbar-thumb:hover {
       background: #2D3748; /* gray-700 */
     }
+
+  /* Ensure all interactive elements have pointer cursor */
+  #project-modal a,
+  #project-modal button,
+  #project-modal [role="button"] {
+    cursor: pointer;
+  }
 </style>

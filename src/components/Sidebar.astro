@@ -63,22 +63,22 @@
     <nav class="sidebar-nav w-full">
       <ul class="space-y-2">
         <li>
-          <a href="/" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200">
+          <a href="/" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer">
             Home
           </a>
         </li>
         <li>
-          <a href="/#about" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200">
+          <a href="/#about" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer">
             About
           </a>
         </li>
         <li>
-          <a href="/#projects" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200">
+          <a href="/#projects" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer">
             Projects
           </a>
         </li>
         <li>
-          <a href="/cv" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200">
+          <a href="/cv" class="nav-link block w-full py-2 px-4 rounded hover:bg-gray-700/50 transition-colors duration-200 cursor-pointer">
             CV
           </a>
         </li>
@@ -129,13 +129,13 @@
       const currentHash = window.location.hash; // e.g. "#about", "" if none
   
       document.querySelectorAll('.nav-link').forEach(link => {
-        // Use the browser’s URL parser to split href into path & hash
+        // Use the browser's URL parser to split href into path & hash
         const url = new URL((link as HTMLAnchorElement).href, window.location.origin);
   
         if (
           url.pathname === currentPath && (
             url.hash === currentHash ||   // exact hash match
-            (url.hash === '' && currentHash === '')  // both “no hash”
+            (url.hash === '' && currentHash === '')  // both "no hash"
           )
         ) {
           link.classList.add('active');
