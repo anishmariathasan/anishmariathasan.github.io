@@ -1,0 +1,99 @@
+---
+// src/components/AnimatedText.astro
+interface Props {
+  text: string;
+  className?: string;
+}
+
+const { text, className = "" } = Astro.props;
+---
+
+<div class="w-full flex justify-center">
+  <div class={`flex items-center ${className}`}> 
+    <span class="text-teal-500 text-4xl md:text-6xl font-bold mr-4">&gt;</span>
+    <span id="animated-text" class="font-mono cursor-pointer select-none flex text-inherit" data-text={text}>
+      {text.split('').map((char, i) => (
+        <span class="transition-colors duration-75" data-index={i}>{char === ' ' ? '\u00A0' : char}</span>
+      ))}
+    </span>
+  </div>
+</div>
+
+<style>
+.scrambling {
+  color: #b0b0b0 !important; /* light grey */
+}
+</style>
+
+<script>
+  const element = document.getElementById('animated-text');
+  const text = element?.getAttribute('data-text') || '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let scrambleTimeouts: ReturnType<typeof setTimeout>[] = [];
+
+  function scrambleLetter(index: number) {
+    const span = element?.querySelector(`[data-index='${index}']`);
+    if (!span) return;
+    let count = 0;
+    const max = 8;
+    span.classList.add('scrambling');
+    function animate() {
+      if (!span) return;
+      if (count >= max) {
+        span.textContent = text[index] === ' ' ? '\u00A0' : text[index];
+        span.classList.remove('scrambling');
+        return;
+      }
+      span.textContent = text[index] === ' ' ? '\u00A0' : characters[Math.floor(Math.random() * characters.length)];
+      count++;
+      scrambleTimeouts[index] = setTimeout(animate, 30);
+    }
+    animate();
+  }
+
+  function clearAllScrambles() {
+    scrambleTimeouts.forEach(timeout => clearTimeout(timeout));
+    scrambleTimeouts = [];
+    // Reset all letters to original
+    if (element) {
+      [...element.children].forEach((span, i) => {
+        span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+        span.classList.remove('scrambling');
+      });
+    }
+  }
+
+  function getClosestIndex(x: number) {
+    if (!element) return 0;
+    let minDist = Infinity;
+    let closest = 0;
+    [...element.children].forEach((span, i) => {
+      const rect = span.getBoundingClientRect();
+      const center = (rect.left + rect.right) / 2;
+      const dist = Math.abs(center - x);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = i;
+      }
+    });
+    return closest;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!element) return;
+    // Initial scramble on load
+    [...element.children].forEach((_, i) => scrambleLetter(i));
+    // Scramble on hover near cursor
+    element.addEventListener('mousemove', (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX;
+      const closest = getClosestIndex(x);
+      // Scramble closest and its neighbors
+      [closest - 1, closest, closest + 1].forEach(idx => {
+        if (idx >= 0 && idx < text.length) scrambleLetter(idx);
+      });
+    });
+    // Optional: clear all on mouseleave
+    element.addEventListener('mouseleave', clearAllScrambles);
+  });
+</script> 

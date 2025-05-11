@@ -1,6 +1,6 @@
 ---
 // src/components/HeroSection.astro
-
+import AnimatedText from './AnimatedText.astro';
 // import { gsap } from "gsap";
 ---
 <section class="min-h-[70vh] flex flex-col justify-center items-center text-center relative overflow-hidden">
@@ -8,9 +8,10 @@
     <!-- <ParticleBackground /> -->
 
     <div class="z-10">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 animate-fade-in-down"> <!-- Example simple animation class -->
-            hi, i'm anish
-        </h1>
+        <AnimatedText 
+            text="hi, i'm anish" 
+            className="text-4xl md:text-6xl font-bold mb-4"
+        />
         <p class="text-xl md:text-2xl text-gray-400 mb-8 animate-fade-in-up delay-200"> <!-- Example simple animation class -->
             Engineering @ Imperial
         </p>
