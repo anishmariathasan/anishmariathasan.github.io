@@ -2,9 +2,8 @@
 
 > 🧑‍🚀 **Why did I bother doing this?** Procrastination.
 
-## 🚀 Project Structure
 
-## 🧞 Commands
+## 🧞 Commands taken from astro template
 
 All commands are run from the root of the project, from a terminal:
 
