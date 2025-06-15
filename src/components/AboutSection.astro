@@ -3,20 +3,38 @@
 // No props needed for this static section currently
 ---
 <section id="about" class="py-16 md:py-24">
-  <div class="container mx-auto px-4 max-w-3xl text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-on-scroll">
+  <div class="container mx-auto px-4 max-w-3xl text-left">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6 animate-on-scroll text-center">
       About Me
     </h2>
-    <div class="text-lg md:text-xl text-black leading-relaxed space-y-4 animate-on-scroll delay-100">
+    <div class="text-lg md:text-xl text-black leading-relaxed space-y-6 animate-on-scroll delay-100">
       <p>
-        I'm an engineering student at <strong class="font-semibold">Imperial College London</strong>, passionate about applying technology to solve real-world challenges. My studies, supplemented by an Academic Scholarship and strong performance in modules like Advanced Programming (96%), form the foundation of my technical skills.
+        I'm a student at Imperial, who loves working on exciting new problems with exciting cracked people.
       </p>
       <p>
-        My experience spans <strong class="font-semibold">software engineering</strong> (C++, Python, Kotlin), <strong class="font-semibold">machine learning</strong> (PyTorch exposure at Oxford Nanopore), <strong class="font-semibold">firmware development</strong> (Arduino C on OedaSock, C on Raspberry Pico at Thermetrix), and <strong class="font-semibold">web development</strong> (Python/Django). I enjoy the full development cycle, from conceptualisation and hardware design to software implementation and data analysis.
+        Beyond academics and internships, I co-founded a socio-altruistic startup which grew in the Kickstart Global incubator and take leadership roles in societies at Imperial. I'm always eager to learn and contribute to innovative projects, especially in the AI in healthcare/tech startup space. Currently I'm working on a medtech startup which we're super excited about (still in stealth as of now).
       </p>
-      <p>
-        Beyond academics and internships, I co-founded a socio-altruistic startup concept through the <strong class="font-semibold">Kickstart '23 Emerge Programme</strong> and take leadership roles in societies at Imperial. I'm always eager to learn and contribute to innovative projects, especially in the AI in healthcare/tech startup space.
+      <p class="font-medium">
+        I'd love for you to reach out if you want to discuss a new idea you're working on, the work I've done, or anything else!
       </p>
+    </div>
+
+    <div class="mt-20 p-6 bg-gray-100 rounded-lg shadow-sm animate-on-scroll delay-200">
+      <h3 class="text-2xl md:text-3xl font-bold mb-6 text-center">What I'm Best At</h3>
+      <div class="text-lg md:text-xl text-black leading-relaxed space-y-6">
+        <p>
+          My experience spans software engineering, deep learning, firmware, and hardware development. I enjoy the full development cycle, from conceptualisation and hardware design to software implementation and data analysis. I'm lucky enough to have had internships as an Embedded Engineer, SWE, and an upcoming ML internship – all in the bioengineering/science space (haven't sold out to finance yet).
+        </p>
+        <p>
+          In addition to your standard engineering mathsy modules, I've got:
+        </p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>Programming skills (C++, Python, Kotlin)</li>
+          <li>Deep learning with PyTorch (Andrej Karpathy's excellent 'Zero to Hero' series building and training GPT from scratch, projects for Image Segmentation, Registration and Reconstruction)</li>
+          <li>Significant solid+fluid mechanics experience through advanced university modules (thermodynamics, advanced fluid dynamics, biomechanics, CFD, FEA)</li>
+          <li>Hardware development experience (projects, specialised university modules e.g. electronics and electromagnetism)</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -35,6 +53,7 @@
   }
   /* Simple delay utility classes */
   .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
 </style>
 
 <script>
