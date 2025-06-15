@@ -43,8 +43,8 @@
   /* Base state for animation elements */
   .animate-on-scroll {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
   }
   /* State when element becomes visible */
   .animate-on-scroll.is-visible {
@@ -52,8 +52,8 @@
     transform: translateY(0);
   }
   /* Simple delay utility classes */
-  .delay-100 { transition-delay: 0.1s; }
-  .delay-200 { transition-delay: 0.2s; }
+  .delay-100 { transition-delay: 0.05s; }
+  .delay-200 { transition-delay: 0.1s; }
 </style>
 
 <script>
@@ -68,33 +68,27 @@
       gsap.to(element, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: 0.4,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: element,
-          start: "top 85%", // Trigger when 85% of the element is visible
-          // markers: true, // Uncomment to debug trigger points
+          start: "top 90%", // Trigger when 90% of the element is visible
           toggleActions: "play none none none", // Play animation once on enter
         }
       });
     });
   });
 
-  // Fallback for non-JS users or if GSAP fails (using CSS transitions)
-  // This could also be done purely with CSS Intersection Observer if preferred over GSAP
-  // but GSAP offers more control. Here's a simple CSS fallback observer:
+  // Fallback for non-JS users or if GSAP fails
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        // Optional: stop observing once visible if animation only plays once
-        // observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 }); // Trigger when 10% visible
+  }, { threshold: 0.2 }); // Trigger when 20% visible
 
   document.querySelectorAll('.animate-on-scroll').forEach(el => {
     observer.observe(el);
   });
-
 </script>
