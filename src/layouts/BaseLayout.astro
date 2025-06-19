@@ -7,21 +7,107 @@ import MobileMenuToggle from '../components/MobileMenuToggle.astro';
 export interface Props {
     title: string;
     description?: string;
+    keywords?: string;
+    image?: string;
+    url?: string;
 }
 
-const { title, description = "anish mariathasan" } = Astro.props;
+const { 
+    title, 
+    description = "Anish Mariathasan - Biomedical Engineering student at Imperial College London. Specialising in software engineering, deep learning, and hardware development with experience in AI healthcare and medtech startups.",
+    keywords = "Anish Mariathasan, Biomedical Engineering, Imperial College London, Software Engineering, Deep Learning, PyTorch, AI Healthcare, Medtech, Hardware Development, C++, Python, Kotlin, Machine Learning, Computer Vision, Image Segmentation, CFD, FEA, Biomechanics",
+    image = "/profile-image.jpg",
+    url = "https://anishmariathasan.github.io"
+} = Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
+    
+    <!-- Primary Meta Tags -->
     <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Anish Mariathasan" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Anish Mariathasan" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
+    <meta property="twitter:creator" content="@anishmariathasan" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#14b8a6" />
+    <meta name="msapplication-TileColor" content="#14b8a6" />
+    <link rel="canonical" href={url} />
+    
+    <!-- Structured Data for Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Anish Mariathasan",
+      "jobTitle": "Biomedical Engineering Student",
+      "alumniOf": {
+        "@type": "Organization",
+        "name": "Imperial College London"
+      },
+      "description": "Biomedical Engineering student specialising in software engineering, deep learning, and hardware development with experience in explainable AI (XAI), mechanistic interpretability, and trusted medical AI systems",
+      "url": "https://anishmariathasan.github.io",
+      "image": "/profile-image.jpg",
+      "sameAs": [
+        "https://github.com/anishmariathasan",
+        "https://www.linkedin.com/in/anishmariathasan"
+      ],
+      "knowsAbout": [
+        "Biomedical Engineering",
+        "Explainable AI",
+        "Mechanistic Interpretability",
+        "Trusted Medical AI",
+        "AI Transparency",
+        "Medical AI Safety",
+        "Healthcare AI",
+        "Interpretable Machine Learning",
+        "AI Ethics in Healthcare",
+        "Software Engineering",
+        "Deep Learning",
+        "Machine Learning",
+        "Computer Vision",
+        "PyTorch",
+        "C++",
+        "Python",
+        "Kotlin",
+        "AI Healthcare",
+        "Medtech",
+        "Startups",
+        "Entrepreneurship",
+        "Biomechanics",
+        "CFD",
+        "FEA"
+      ]
+    }
+    </script>
 
-    <!-- Imported Syne Mono -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
