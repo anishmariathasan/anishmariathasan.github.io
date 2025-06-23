@@ -75,6 +75,27 @@
       <div id="modal-links" class="flex flex-wrap gap-x-4 gap-y-2 mt-4 pt-4 border-t border-gray-700/30">
         {/* Links will be populated dynamically */}
         {/* Add download button for OEDASock project report */}
+        {/* (Removed because file no longer exists) */}
+        {/* if (project.title === "OedaSock (Imperial HCARD Competition Winner)") {
+            const downloadButton = document.createElement('a');
+            downloadButton.href = '/files/OedaSock_Report.pdf';
+            downloadButton.download = 'OedaSock-Project-Report.pdf';
+            downloadButton.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
+            downloadButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Report
+            `;
+            modalLinksElement.appendChild(downloadButton);
+        } */}
+        {/* Add legacy website link for Squashed Orange */}
+        {/* Links will be populated dynamically */}
+        {/* Add legacy link for PPE Redistribution App */}
+        {/* Links will be populated dynamically */}
+        {/* Add legacy link for Personal Website */}
+        {/* Links will be populated dynamically */}
+        {/* Add legacy link for Therakey */}
         {/* Links will be populated dynamically */}
       </div>
     </div>
@@ -238,19 +259,20 @@
             modalLinksElement.appendChild(createLink(project.demoLink, 'Live Demo', `... Demo Link SVG ...`)); // Abbreviated SVG
         }
         // Add download button for OEDASock project report
-        if (project.title === "OedaSock (Imperial HCARD Competition Winner)") {
-            const downloadButton = document.createElement('a');
-            downloadButton.href = '/files/OedaSock_Report.pdf'; // Updated path to match the actual file location
-            downloadButton.download = 'OedaSock-Project-Report.pdf';
-            downloadButton.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
-            downloadButton.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Download Report
-            `;
-            modalLinksElement.appendChild(downloadButton);
-        }
+        // (Removed because file no longer exists)
+        // if (project.title === "OedaSock (Imperial HCARD Competition Winner)") {
+        //     const downloadButton = document.createElement('a');
+        //     downloadButton.href = '/files/OedaSock_Report.pdf';
+        //     downloadButton.download = 'OedaSock-Project-Report.pdf';
+        //     downloadButton.className = 'inline-flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium cursor-pointer';
+        //     downloadButton.innerHTML = `
+        //         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        //             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        //         </svg>
+        //         Download Report
+        //     `;
+        //     modalLinksElement.appendChild(downloadButton);
+        // }
         // Add legacy website link for Squashed Orange
         if (project.title === "Mobile Game Development ('Squashed Orange')") {
             const legacyLink = document.createElement('a');
